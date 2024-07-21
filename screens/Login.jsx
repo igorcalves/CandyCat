@@ -1,12 +1,12 @@
 import { Image ,StyleSheet, Text, View } from "react-native";
-import TextInput from "./inputs/TextInput";
-import PrimaryButton from "./buttons/PrimaryButton";
+import TextInput from "../components/inputs/TextInput";
+import PrimaryButton from "../components/buttons/PrimaryButton";
 import colors from "../consts/colors";
 
 
 export default function Login(){
   return(
-    <>
+    <View style={styles.container}>
       <View style={styles.logo}>
       <Image
         style={styles.image}
@@ -16,12 +16,12 @@ export default function Login(){
         
 
       </View>
-      <View style={styles.container}>
+      <View>
         <TextInput placeholder = "Login" />
         <TextInput placeholder = "Senha" />
         <PrimaryButton text = "Entrar" onPress = {() => console.log('Entrou')} />
       </View>
-    </>
+    </ View>
       
   )
 }
@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.background,
+    width: '100%',
   },
   TextOnTop:{
     fontSize: 24,

@@ -5,14 +5,15 @@ import { View } from "react-native";
 import DateFilter from "../../filter/DateFilter";
 import AtualizationCard from "../../card/AtualizationCard";
 
-export function BodyHome() {
+export function BodyHome({
+  navigation,
+}) {
   return (
     <View style={{flex: 1}}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.cardContainer}>
-        <CardLink />
-        <CardLink />
-        <CardLink />
-        <CardLink />
+        <CardLink navigation={navigation} screen = {'Tasks'}/>
+        <CardLink navigation={navigation} screen={'Money'}/>
+        <CardLink navigation={navigation} screen={'Shopping'}/>
       </ScrollView>
       <Text style={styles.title}>Ultimas Atualizações</Text>
       <DateFilter />

@@ -1,11 +1,20 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
-import colors from '../consts/colors';
-import TextInputWithButton from './inputs/TextInputWithButton';
-import AtualizationCard from './card/AtualizationCard';
-export default function Tasks() {
+import TextInputWithButton from '../components/inputs/TextInputWithButton';
+import AtualizationCard from '../components/card/AtualizationCard'
+import TemplatePage from './TeamplatePage';
+import Header from '../components/pageComponents/Header';
+import TextName from '../components/pageComponents/TextName';
+import Body from '../components/pageComponents/Body';
+export default function Money() {
   return (
+    <TemplatePage>
+      <Header>
+        <TextName name="Dinheiro" />
+      </Header>
+    <Body>
     <View style={styles.container}>
+      
       <TextInputWithButton 
         placeholder="Adicionar Tarefa" 
         inputStyle={[styles.input, { marginBottom: 30 }]} 
@@ -19,12 +28,15 @@ export default function Tasks() {
         </ScrollView>
       </View>
     </View>
+    </Body>
+    </TemplatePage>
+
   );
 }
 
 const styles = StyleSheet.create({
   container:{
-    marginTop: 30,
+    marginTop: 20,
     flex: 1,
     alignItems: 'center',
   },
@@ -36,5 +48,4 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   }
-  // ...
 })
