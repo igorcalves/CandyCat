@@ -11,9 +11,9 @@ export function BodyHome({
   return (
     <View style={{flex: 1}}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.cardContainer}>
-        <CardLink navigation={navigation} screen = {'Tasks'}/>
-        <CardLink navigation={navigation} screen={'Money'}/>
-        <CardLink navigation={navigation} screen={'Shopping'}/>
+        <CardLink title= 'Tarefas' navigation={navigation} screen = {'Tasks'}/>
+        <CardLink title= 'Dinheiro' navigation={navigation} screen={'Money'}/>
+        <CardLink title= 'Compras' navigation={navigation} screen={'Shopping'}/>
       </ScrollView>
       <Text style={styles.title}>Ultimas Atualizações</Text>
       <DateFilter />

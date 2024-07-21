@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   icon: {
-    marginRight: 4,
+    marginRight: 10,
     width: 50,
     height: 50,
     borderRadius: 15,

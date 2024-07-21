@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../consts/colors";
 
-export default function PrimaryButton({text, onPress}){
+export default function PrimaryButton({title, onPress, primaryButtonStyle}){
   
     return(
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.text}>{text}</Text>
+      <TouchableOpacity style={[styles.button, primaryButtonStyle]} onPress={onPress}>
+        <Text style={styles.title}>{title}</Text>
       </TouchableOpacity>
     )
   }
@@ -19,7 +19,7 @@ export default function PrimaryButton({text, onPress}){
       alignItems: 'center',
       marginTop: 20,
     },
-    text: {
+    title: {
       color: colors.black,
       fontFamily: 'Inter-ExtraBold',
       fontSize: 16,

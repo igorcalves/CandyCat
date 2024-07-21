@@ -1,14 +1,17 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import colors from "../../consts/colors";
 import { TouchableOpacity } from "react-native";
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function Header({children}){
-  
+  const navigation = useNavigation(); 
+
+    
   return(
     <>
       <View style={styles.row} >
       {children}
-      <TouchableOpacity onPress={() => console.log('CardLink clicked')}>
+      <TouchableOpacity onPress={() => {navigation.navigate('Exit')}}>
         <Image source={require('../../assets/images/pepeta.png')} style={styles.profile} />
       </TouchableOpacity>
 

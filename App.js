@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import Login from './screens/Login';
@@ -12,6 +12,7 @@ import Money from './screens/Money';
 import colors from './consts/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Shopping from './screens/Shopping';
+import Exit from './screens/Exit';
 
 const stack = createStackNavigator();
 
@@ -70,6 +71,17 @@ export default function App() {
     <stack.Screen 
       name="Shopping" 
       component={Shopping} 
+      options={{ 
+        headerShown: true, 
+        headerTitle: '',
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+      }}
+    />
+    <stack.Screen 
+      name="Exit" 
+      component={Exit} 
       options={{ 
         headerShown: true, 
         headerTitle: '',

@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
 export default function CardLink({
+  title,
   navigation,
   screen
 }) {
@@ -14,7 +15,7 @@ export default function CardLink({
     <>
     <TouchableOpacity onPress={() => navigation.navigate(screen)}>
       <View style={styles.container}>
-        <Text>CardLink</Text>
+        <Text style={styles.title}>{title}</Text>
       </View>
     </TouchableOpacity>
     </>
@@ -33,4 +34,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: colors.white,
   },
+  title: {
+    fontFamily: 'Inter-ExtraBold',
+    fontSize: 16,
+  }
 });

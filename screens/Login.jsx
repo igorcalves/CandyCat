@@ -2,9 +2,11 @@ import { Image ,StyleSheet, Text, View } from "react-native";
 import TextInput from "../components/inputs/TextInput";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import colors from "../consts/colors";
+import { useNavigation } from '@react-navigation/native'; 
 
 
 export default function Login(){
+  const navigation = useNavigation();
   return(
     <View style={styles.container}>
       <View style={styles.logo}>
@@ -19,7 +21,7 @@ export default function Login(){
       <View>
         <TextInput placeholder = "Login" />
         <TextInput placeholder = "Senha" />
-        <PrimaryButton text = "Entrar" onPress = {() => console.log('Entrou')} />
+        <PrimaryButton title = "Entrar" onPress = {() => {navigation.navigate('Home')}} />
       </View>
     </ View>
       
