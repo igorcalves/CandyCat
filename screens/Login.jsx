@@ -2,30 +2,69 @@ import { Image ,StyleSheet, Text, View } from "react-native";
 import TextInput from "../components/inputs/TextInput";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import colors from "../consts/colors";
-import { useNavigation } from '@react-navigation/native'; 
+import { initializeApp } from "firebase/app";
+import { useNavigation } from '@react-navigation/native';
 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signout } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { experimentalSetDeliveryMetricsExportedToBigQueryEnabled } from "firebase/messaging/sw";
+import firebaseConfig  from "../data/fireabaseBaseConfig";
 
-export default function Login(){
+const app = initializeApp(firebaseConfig);
+export default function Login() {
   const navigation = useNavigation();
-  return(
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
+
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      if (user) {
+        navigation.navigate('Home'); 
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log('Usuário logado:', userCredential.user);
+      })
+      .catch((error) => {
+        console.error('Erro no login:', error.code, error.message);
+      });
+  };
+
+  return (
     <View style={styles.container}>
       <View style={styles.logo}>
-      <Image
-        style={styles.image}
-        source={require('../assets/icons/Home.png')} // Substitua pelo caminho da sua imagem
-      />
+        <Image
+          style={styles.image}
+          source={require('../assets/icons/Home.png')}
+        />
         <Text style={styles.TextOnTop}>CandyCat</Text>
-        
-
       </View>
-      <View>
-        <TextInput placeholder = "Login" />
-        <TextInput placeholder = "Senha" />
-        <PrimaryButton title = "Entrar" onPress = {() => {navigation.navigate('Home')}} />
+      <View style={styles.container}>
+        <TextInput 
+          placeholder="Login" 
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput 
+          placeholder="Senha"
+          secureTextEntry={true} 
+          value={password}
+          onChangeText={setPassword}
+        />
+        <PrimaryButton title="Entrar" onPress={handleLogin} />
       </View>
-    </ View>
-      
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -19,6 +19,9 @@ const stack = createStackNavigator();
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+
+ 
+  
   const [loaded, error] = useFonts({
     'Inter-ExtraBold': require('./assets/fonts/static/Inter-ExtraBold.ttf'),
   });
@@ -36,7 +39,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-  <stack.Navigator initialRouteName='Home'> 
+  <stack.Navigator initialRouteName='Login'> 
     <stack.Screen 
       name="Login" 
       component={Login}
