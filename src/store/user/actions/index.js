@@ -1,40 +1,45 @@
 import * as types from '../types';
 
-export function loginRequest(data, callback) {
+export function loginRequest(data, callback, callbackError) {
 
   return {
     type: types.LOGIN_REQUEST,
     data,
-    callback
+    callback,
+    callbackError
   };
 }
 
-export function loginSuccess(data, callback) {
+export function loginSuccess(data, callback, callbackError) {
   return {
     type: types.LOGIN_SUCCESS,
     data,
-    callback
+    callback,
+    callbackError
   };
 }
 
-export function loginFailure(error, callback) {
+export function loginFailure(error, callback, callbackError) {
   return {
     type: types.LOGIN_FAILURE,
     error,
-    callback
+    callback,
+    callbackError
   };
 }
 
-export function logout(callback) {
+export function logout(callback, callbackError) {
   return {
     type: types.LOGOUT,
-    callback
+    callback,
+    callbackError
   };
 }
 
-export function logoutSuccess(callback) {
+export function logoutSuccess(callback, callbackError) {
   return {
     type: types.LOGOUT_SUCCESS,
-    callback
+    callback,
+    callbackError
   };
 }

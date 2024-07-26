@@ -1,32 +1,39 @@
-import { Image ,StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import TextInput from "../components/inputs/TextInput";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import colors from "../consts/colors";
 import { useNavigation } from '@react-navigation/native';
-import app from '../data/services/firebaseApp'
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signout } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { loginRequest } from "../store/user/actions";
 
-export const Login = ({
-  login,
+import Toast from "react-native-toast-message";
 
-}) => {
+export const Login = ({ login }) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-
-
-
-
+  const clearInputs = () => {
+    setEmail('');
+    setPassword('');
+  }
 
   const handleLogin = () => {
-    login({ email:"teste@gmail.com", password: "123@@@456" }, () => {
+    setLoading(true);
+    login({ email, password }, () => {
       navigation.navigate('Home');
-    });
+      clearInputs();
+      setLoading(false);
+    },
+    () => {
+      setLoading(false);
+    }
+  );
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -49,7 +56,15 @@ export const Login = ({
           value={password}
           onChangeText={setPassword}
         />
-        <PrimaryButton title="Entrar" onPress={handleLogin} />
+
+
+          <PrimaryButton 
+          title="Entrar" 
+          onPress={handleLogin}
+          loading={loading}
+          
+          />
+
       </View>
     </View>
   );
@@ -63,13 +78,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     width: '100%',
   },
-  TextOnTop:{
+  TextOnTop: {
     fontSize: 24,
     marginTop: 30,
     fontFamily: 'Inter-ExtraBold',
     color: colors.white,
     textAlign: 'center',
-
   },
   logo: {
     paddingTop: 50,
@@ -80,11 +94,10 @@ const styles = StyleSheet.create({
     height: 50,
     alignSelf: 'flex-end',
   }
-})
-
-
-const mapDispatchToProps = (dispatch) => ({
-  login: (data, callback) => dispatch(loginRequest(data, callback)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);  
+const mapDispatchToProps = (dispatch) => ({
+  login: (data, callback, callbackError) => dispatch(loginRequest(data, callback,callbackError)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

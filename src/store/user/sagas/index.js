@@ -15,8 +15,8 @@ const loginRequest = async (email, password) => {
   } catch (error) {
     Toast.show({
       type: 'error',
-      text1: 'Dados de Acesso Inválidos ❌',
-      text2: 'Verifique seu e-mail e senha e tente novamente',
+      text1: 'Dados de Acesso Inválidos',
+      text2: 'Tente novamente',
     });
     return { success: false, user: null };
   }
@@ -28,7 +28,7 @@ const logoutRequest = async (callback) => {
     await signOut(auth);
     Toast.show({
       type: 'success',
-      text1: 'Logout efetuado com sucesso ✅',
+      text1: 'Logout efetuado com sucesso',
     });
     callback && callback();
     return { success: true };
@@ -36,7 +36,7 @@ const logoutRequest = async (callback) => {
   } catch (error) {
     Toast.show({
       type: 'error',
-      text1: 'Erro ao efetuar logout ❌',
+      text1: 'Erro ao efetuar logout',
       text2: 'Tente novamente',
     });
     return { success: false };
@@ -44,21 +44,27 @@ const logoutRequest = async (callback) => {
   }
 }
 
-function* login({ data, callback }) {
+function* login({ data, callback , callbackError }) {
   const { email, password } = data;
   const response = yield call(loginRequest, email, password);  
   if (response.success) {
     yield put(loginSuccess(response.user));
     callback && callback();
+  }else{
+    yield put(loginFailure(response.user));
+    callbackError && callbackError();
+
   }
   
 }
 
-function * logout({ callback }) {
+function * logout({ callback, callbackError }) {
   const response = yield call(logoutRequest);
   if (response.success) {
     yield put(logoutSuccess());
     callback && callback();
+  }else{
+    callbackError && callbackError();
   }
 }
 

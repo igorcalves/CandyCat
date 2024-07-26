@@ -7,13 +7,23 @@ import PrimaryButton from "../components/buttons/PrimaryButton";
 import colors from "../consts/colors";
 import { logout } from "../store/user/actions";
 import { connect } from "react-redux";
+import { useState } from "react";
+
 export const Exit = ({logout}) =>{
     const navigation = useNavigation();
 
+    const [loading, setLoading] = useState(false);
+
     const handleLogout = () => {
-        logout(() => {
-            navigation.navigate('Login');
-        });
+        setLoading(true);
+         logout(() => {
+             navigation.navigate('Login');
+             setLoading(false);
+        },
+        () => {
+            setLoading(false);
+        }
+    );
     }
 
     return(
@@ -34,7 +44,10 @@ export const Exit = ({logout}) =>{
                         onPress={() => navigation.navigate('Login')} title='Alterar Senha'/>
                         <PrimaryButton 
                         primaryButtonStyle ={styles.exitButton}
-                        onPress={handleLogout} title='Sair'/>
+                        onPress={handleLogout} 
+                        title='Sair'
+                        loading={loading}
+                        />
                     </View>
                 </Body>
             </TemplatePage>

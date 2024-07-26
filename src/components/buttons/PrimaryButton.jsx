@@ -1,11 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../consts/colors";
 
-export default function PrimaryButton({title, onPress, primaryButtonStyle}){
+export default function PrimaryButton({
+  title, 
+  onPress, 
+  primaryButtonStyle,
+  loading
+}){
   
     return(
       <TouchableOpacity style={[styles.button, primaryButtonStyle]} onPress={onPress}>
-        <Text style={styles.title}>{title}</Text>
+        {loading ? <ActivityIndicator color={colors.strongBlue} /> :  <Text style={styles.title}>{title}</Text>}
       </TouchableOpacity>
     )
   }
