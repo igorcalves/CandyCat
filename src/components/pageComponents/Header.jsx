@@ -12,7 +12,7 @@ export default function Header({children}){
       <View style={styles.row} >
       {children}
       <TouchableOpacity onPress={() => {navigation.navigate('Exit')}}>
-        <Image source={require('../../assets/images/pepeta.png')} style={styles.profile} />
+        <Image source={require('../../../assets/images/pepeta.png')} style={styles.profile} />
       </TouchableOpacity>
 
       </View>

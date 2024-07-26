@@ -1,27 +1,18 @@
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import Login from './screens/Login';
-import Home from './screens/Home';
-import Tasks from './screens/Tasks';
-import Money from './screens/Money';
-import colors from './consts/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Shopping from './screens/Shopping';
-import Exit from './screens/Exit';
-
-const stack = createStackNavigator();
+import colors from './src/consts/colors';
+import { StyleSheet } from 'react-native';
+import Routers from './src/screens/Routers';
+import { Provider } from 'react-redux';
+import store from './src/store';
+import Toast from 'react-native-toast-message';
+import toastConfig from './src/utils/toast/customToast';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-
- 
-  
   const [loaded, error] = useFonts({
     'Inter-ExtraBold': require('./assets/fonts/static/Inter-ExtraBold.ttf'),
   });
@@ -37,74 +28,18 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-  <stack.Navigator initialRouteName='Login'> 
-    <stack.Screen 
-      name="Login" 
-      component={Login}
-      options={{ headerShown: false }} 
-    />
-    <stack.Screen 
-      name="Home" 
-      component={Home}
-      options={{ headerShown: false }} 
-    />
-    <stack.Screen 
-      name="Tasks" 
-      component={Tasks} 
-      options={{ 
-        headerTitle: '',
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-    />
-    <stack.Screen 
-      name="Money" 
-      component={Money} 
-      options={{ 
-        headerShown: true, 
-        headerTitle: '',
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-    />
-    <stack.Screen 
-      name="Shopping" 
-      component={Shopping} 
-      options={{ 
-        headerShown: true, 
-        headerTitle: '',
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-    />
-    <stack.Screen 
-      name="Exit" 
-      component={Exit} 
-      options={{ 
-        headerShown: true, 
-        headerTitle: '',
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-    />
-  </stack.Navigator>
-</NavigationContainer>
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <Routers />
+        <Toast config={toastConfig}/>
+      </SafeAreaView>
+    </Provider>
   );
 }
 
-
-
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    backgroundColor: colors.background
+    flex: 1,
+    backgroundColor: colors.background,
   },
-  
 });

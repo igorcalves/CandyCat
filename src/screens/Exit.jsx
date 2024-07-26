@@ -5,8 +5,17 @@ import Header from "../components/pageComponents/Header";
 import Body from "../components/pageComponents/Body";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import colors from "../consts/colors";
-export default function Exit(){
+import { logout } from "../store/user/actions";
+import { connect } from "react-redux";
+export const Exit = ({logout}) =>{
     const navigation = useNavigation();
+
+    const handleLogout = () => {
+        logout(() => {
+            navigation.navigate('Login');
+        });
+    }
+
     return(
         <View style={{flex:1}} >
             
@@ -25,7 +34,7 @@ export default function Exit(){
                         onPress={() => navigation.navigate('Login')} title='Alterar Senha'/>
                         <PrimaryButton 
                         primaryButtonStyle ={styles.exitButton}
-                        onPress={() => navigation.navigate('Login')} title='Sair'/>
+                        onPress={handleLogout} title='Sair'/>
                     </View>
                 </Body>
             </TemplatePage>
@@ -50,3 +59,10 @@ export default function Exit(){
           fontSize: 16,
         }
       });
+
+
+const mapDispatchToProps = (dispatch) => ({
+    logout: (callback) => dispatch(logout(callback))
+    });
+
+export default connect(null, mapDispatchToProps)(Exit);

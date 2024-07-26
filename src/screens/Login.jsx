@@ -1,43 +1,31 @@
 import { Image ,StyleSheet, Text, View } from "react-native";
-import TextInput from "../../components/inputs/TextInput";
-import PrimaryButton from "../../components/buttons/PrimaryButton";
-import colors from "../../consts/colors";
-import { initializeApp } from "firebase/app";
+import TextInput from "../components/inputs/TextInput";
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import colors from "../consts/colors";
 import { useNavigation } from '@react-navigation/native';
-
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signout } from "firebase/auth";
+import app from '../data/services/firebaseApp'
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signout } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { experimentalSetDeliveryMetricsExportedToBigQueryEnabled } from "firebase/messaging/sw";
-import firebaseConfig  from "../../data/fireabaseBaseConfig";
+import { connect } from "react-redux";
+import { loginRequest } from "../store/user/actions";
 
-const app = initializeApp(firebaseConfig);
-export default function Login() {
+export const Login = ({
+  login,
+
+}) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
 
-  const auth = getAuth(app);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      if (user) {
-        navigation.navigate('Home'); 
-      }
-    });
 
-    return () => unsubscribe();
-  }, [auth]);
+
+
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log('Usuário logado:', userCredential.user);
-      })
-      .catch((error) => {
-        console.error('Erro no login:', error.code, error.message);
-      });
+    login({ email:"teste@gmail.com", password: "123@@@456" }, () => {
+      navigation.navigate('Home');
+    });
   };
 
   return (
@@ -45,7 +33,7 @@ export default function Login() {
       <View style={styles.logo}>
         <Image
           style={styles.image}
-          source={require('../assets/icons/Home.png')}
+          source={require('../../assets/icons/Home.png')}
         />
         <Text style={styles.TextOnTop}>CandyCat</Text>
       </View>
@@ -93,3 +81,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   }
 })
+
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (data, callback) => dispatch(loginRequest(data, callback)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);  

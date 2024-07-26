@@ -21,7 +21,7 @@ export default function AtualizationCard({ editable = false}) {
     <>
         <View style={styles.container}>
           <View style={styles.row}>
-            <Image source={require('../../assets/icons/Tasks.png')} style={styles.icon} />
+            <Image source={require('../../../assets/icons/Tasks.png')} style={styles.icon} />
 
             <View style={[styles.row, {justifyContent: 'space-between', flex: 1}]}>
             <TouchableOpacity onPress={() => console.log('AtulizationCard clicked')}>
