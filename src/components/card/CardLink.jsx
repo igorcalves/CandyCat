@@ -1,20 +1,58 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../../consts/colors";
 import { View } from "react-native";
-import { useNavigation } from '@react-navigation/native';
 
 export default function CardLink({
   title,
   navigation,
-  screen
+  screen,
+  iconId,
 }) {
 
+  const getIcon = (iconId) => {
+    switch (iconId) {
+      case 1:
+        return (
+          <Image
+            style={styles.icon}
+            source={require('../../../assets/icons/Tasks.png')}
+            resizeMode="contain"
+          />
+        );
+      case 2:
+        return (
+          <Image
+            style={styles.icon}
+            source={require('../../../assets/icons/Money.png')}
+            resizeMode="contain"
+          />
+        );
+      case 3:
+        return (
+          <Image
+            style={styles.icon}
+            source={require('../../../assets/icons/Shopping.png')}
+            resizeMode="contain"
+          />
+        );
+      default:
+        return (
+          <Image
+            style={styles.icon}
+            source={require('../../../assets/icons/Tasks.png')}
+          />
+        );
+      }
+    }
 
   return (
     <>
     <TouchableOpacity onPress={() => navigation.navigate(screen)}>
       <View style={styles.container}>
-        <Text style={styles.title}>{title}</Text>
+      {
+        getIcon(iconId)
+      }
+      <Text style={styles.title}>{title}</Text>
       </View>
     </TouchableOpacity>
     </>
@@ -36,5 +74,9 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Inter-ExtraBold',
     fontSize: 16,
-  }
+  },
+  icon: {
+    width: 100,
+    height: 100,
+  },
 });
