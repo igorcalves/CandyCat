@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import TextInputWithButton from '../components/inputs/TextInputWithButton';
 import TemplatePage from './TeamplatePage';
 import Header from '../components/pageComponents/Header';
