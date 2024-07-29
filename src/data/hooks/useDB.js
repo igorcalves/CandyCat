@@ -20,7 +20,7 @@ export const useTasks = () => {
 
     const addTask = (title, user) => {
         const newTask = {
-            id: fakeDB.tasks.length + 1, 
+            id: fakeDB.tasks.length + 1000, 
             title,
             date: new Date(),
             completed: false,
