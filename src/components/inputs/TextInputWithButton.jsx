@@ -23,7 +23,6 @@ export default function TextInputWithButton({
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   inputContainer: {
     height: 47,
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'transparent',
     padding: 10,
-    width: 300,
+    width: 300, // Considerar tornar este valor mais flexível ou ajustável
     borderRadius: 20,
     backgroundColor: colors.white,
     paddingLeft: 20,
@@ -41,10 +40,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     paddingHorizontal: 10,
+    paddingRight: 50, // Aumentado para evitar que o texto encoste no botão
     color: colors.black, 
     fontFamily: 'Inter-ExtraBold', 
-    borderBottomWidth: 0, 
-    
+    borderBottomWidth: 0,
   },
   button: {
     padding: 10,
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     justifyContent: 'center',
+    width: 40, // Definir um tamanho fixo para o botão pode ajudar
   },
   buttonText: {
     color: colors.black,

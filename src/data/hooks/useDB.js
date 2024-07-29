@@ -4,10 +4,7 @@ import moment from 'moment-timezone';
 export const useTasks = () => {
     const [tasks, setTasks] = useState([]);
 
-    const now = () =>{
-        return new Date(new Date().getTime() - (3 * 60 * 60 * 1000));
-
-    }
+ 
 
     useEffect(() => {
         setTasks(fakeDB.tasks);
@@ -25,7 +22,7 @@ export const useTasks = () => {
         const newTask = {
             id: fakeDB.tasks.length + 1, 
             title,
-            date: now(),
+            date: new Date(),
             completed: false,
             description: `Criado por ${fakeDB.users[0].name}`,
         };
@@ -38,7 +35,7 @@ export const useTasks = () => {
             if (task.id === id) {
                 return { ...task, 
                     completed: true, 
-                    date: now(),
+                    date: new Date(),
                     description: `Concluido Por ${fakeDB.users[0].name}`,
                 };
             }
@@ -54,7 +51,7 @@ export const useTasks = () => {
         if (task.id === id) {
             return { ...task, 
                 title: newName, 
-                date: now(),
+                date: new Date(),
             };
         }
         return task;

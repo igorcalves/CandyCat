@@ -1,4 +1,6 @@
 
+
+
 export default fakeDB = {
     tasks:[
     ],
@@ -24,7 +26,7 @@ for (let i = 0; i <= 15; i++) {
         userId: 1, 
         title: `Task ${i}`,
         completed: i % 2 === 0? true : false,
-        date: new Date('2026-12-30'),
+        date: new Date(),
         description: `Criado por ${fakeDB.users[0].name}`,
     });
 }
