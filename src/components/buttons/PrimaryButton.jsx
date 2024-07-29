@@ -5,12 +5,25 @@ export default function PrimaryButton({
   title, 
   onPress, 
   primaryButtonStyle,
-  loading
+  textStyles,
+  loading,
+  pressed
 }){
   
     return(
-      <TouchableOpacity style={[styles.button, primaryButtonStyle]} onPress={onPress}>
-        {loading ? <ActivityIndicator color={colors.strongBlue} /> :  <Text style={styles.title}>{title}</Text>}
+      <TouchableOpacity 
+        style={[
+          styles.button, 
+          primaryButtonStyle, 
+          pressed && styles.pressed 
+        ]} 
+        onPress={onPress}
+      >
+        {loading ? (
+          <ActivityIndicator color={colors.strongBlue} />
+        ) : (
+          <Text style={[styles.title, textStyles, pressed && styles.titlePressed]}>{title}</Text>
+        )}
       </TouchableOpacity>
     )
   }
@@ -28,5 +41,11 @@ export default function PrimaryButton({
       color: colors.black,
       fontFamily: 'Inter-ExtraBold',
       fontSize: 16,
+    },
+    titlePressed: {
+      color: colors.white,
+    },
+    pressed: {
+      backgroundColor: colors.strongBlue,
     }
   });

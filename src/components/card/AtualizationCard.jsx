@@ -1,74 +1,103 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "../../consts/colors";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-export default function AtualizationCard({ editable = false}) {
+import { convertDate, getOnlyHour } from "../../utils/date/convert";
+
+export default function AtualizationCard({ 
+    title,
+    completed,
+    description,
+    date,
+    onPressed,
+    editable = true,
+    onPressEdit,
+    onPressDelete,
+    toggle,
+    disabled = false,
+  }) {
   
-  const edit = () =>{
-    return(
-      <View style={styles.edit}>
-        <TouchableOpacity onPress={() => console.log('Edit clicked')}>
-        <MaterialIcons name="edit" size={24} color={colors.strongBlue}/>
+  const edit = () => (
+    <View style={styles.edit}>
+      <TouchableOpacity onPress={onPressEdit}>
+        <MaterialIcons name="edit" size={24} color={colors.white}/>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('Delete clicked')}>
-        <MaterialIcons name="delete" size={24} color={colors.strongBlue} />
+      <TouchableOpacity onPress={onPressDelete}>
+        <MaterialIcons name="delete" size={24} color={colors.white} />
       </TouchableOpacity>
-      </View>
-      
-    )
-  }
+    </View>
+  );
 
   return (
-    <>
-        <View style={styles.container}>
-          <View style={styles.row}>
-            <Image source={require('../../../assets/icons/Tasks.png')} style={styles.icon} />
-
-            <View style={[styles.row, {justifyContent: 'space-between', flex: 1}]}>
-            <TouchableOpacity onPress={() => console.log('AtulizationCard clicked')}>
-              <View>
-                <Text style={styles.title}>Titulo</Text>
-                <Text style= {styles.subTitle}>Descrição</Text>
-              </View>
-            </TouchableOpacity>
-              <View>
-                {editable? edit(): <Text style= {styles.subTitle}>Data</Text>}
-              </View>
-            </View>
-          </View>
-        </View>
-
-    </>
-    )
+    <TouchableOpacity
+      onPress={onPressed}
+      disabled={disabled}
+    >
+      <View style={[
+      styles.container, 
+      {
+        backgroundColor: toggle? 
+        colors.strongBlue: 
+        colors.stronbBlueV}]}>
+  <View style={{ flex: 1 }}>
+    {!completed ? (
+      <Image
+        style={styles.icon}
+        source={require('../../../assets/icons/Tasks.png')}
+      />
+    ) : (
+      <Image
+        style={styles.icon}
+        source={require('../../../assets/icons/Check.png')}
+      />
+    )}
+  </View>
+  <View style={{ flex: 8,  marginLeft:19 }}>
+    <Text style={styles.title}>{title}</Text>
+    <Text style={[styles.subTitle, {fontSize:13}]}>{`${description} as ${getOnlyHour(date)}`}</Text>
+  </View>
+  <View style={{ flex: 3 }}>
+    <Text style={[styles.subTitle, {fontSize:12}]}>{convertDate(date)}</Text>
+    {editable && edit()}
+  </View>
+</View>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    alignItems: 'center',
+    padding: 15,  
+    borderRadius: 15,
+  },
   row: {
     flexDirection: 'row',
+    flexWrap: 'wrap', 
   },
-  container: {
-    marginBottom: 20,
-  },
+  
   icon: {
     marginRight: 10,
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 15,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
   },
   title: {
     textAlign: 'left',
     fontSize: 16,
     fontFamily: 'Inter-ExtraBold',
     color: 'black',
+    flexShrink: 1, 
   },
   subTitle: {
-    textAlign: 'left',
     fontSize: 16,
     fontFamily: 'Inter-ExtraBold',
     color: colors.background,
   },
   edit: {
     flexDirection: 'row',
-    gap: 10
+    gap: 10,
   }
 });

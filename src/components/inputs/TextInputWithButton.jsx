@@ -2,7 +2,12 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-native';
 import colors from '../../consts/colors';
 
-export default function TextInputWithButton({ placeholder, value, onChangeText, inputStyle, onPress }) {
+export default function TextInputWithButton({ 
+  placeholder, 
+  value, 
+  onChangeText, 
+  inputStyle, 
+  onPress }) {
   return (
     <View style={[styles.inputContainer, inputStyle]}>
       <TextInput

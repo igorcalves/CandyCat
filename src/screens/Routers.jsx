@@ -16,7 +16,7 @@ export default function Routers() {
 
   return(
     <NavigationContainer>
-  <stack.Navigator initialRouteName='Login'> 
+  <stack.Navigator initialRouteName='Tasks'> 
     <stack.Screen 
       name="Login" 
       component={Login}

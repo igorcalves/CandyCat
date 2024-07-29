@@ -9,7 +9,6 @@ export default function CardLink({
   screen
 }) {
 
-  const navigations = useNavigation();
 
   return (
     <>
