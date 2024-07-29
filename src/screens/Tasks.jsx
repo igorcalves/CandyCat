@@ -1,105 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
 import TextInputWithButton from '../components/inputs/TextInputWithButton';
-import AtualizationCard from '../components/card/AtualizationCard'
 import TemplatePage from './TeamplatePage';
 import Header from '../components/pageComponents/Header';
 import TextName from '../components/pageComponents/TextName';
 import Body from '../components/pageComponents/Body';
 import { useTasks } from '../data/hooks/useDB';
-import { checkInput } from '../utils/input/inputValitions';
 import CustomAlert from '../components/modals/ActionModal';
 import List from '../components/data/List';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import colors from '../consts/colors';
-import Toast from 'react-native-toast-message';
-
+import useNotifications from '../data/hooks/useNotifications';
+import useToast from '../data/hooks/useToast';
 export default function Tasks() {
-
-  const [textInput, setTextInput] = React.useState('');
-  const [taskName, setTaskName] = React.useState('');
-  const [isDeleteModal, setDeleteModal] = useState(false);
-  const [isCompleteModal, setCompleteModal] = useState(false);
-  const [isEditModal, setEditModal] = useState(false);
-  const [taskSelected, setTaskSelected] = useState({});
-  const [pressed, setPressed] = useState('A fazer'); 
-
-
-    const addSuccess = () => {
-      Toast.show({
-        type: 'success',
-        text1: 'Tarefa adicionada',
-      });
-    }
-
-
-    const deleteSuccess = () => {
-      Toast.show({
-        type: 'success',
-        text1: `Tarefa: ${taskSelected.title} deletada`,
-      });
-    }
-
-    const completeSucess = () => {
-      Toast.show({
-        type: 'success',
-        text1: `Tarefa: ${taskSelected.title} completa`,
-      });
-    }
-
-    const editSucess = () => {
-      Toast.show({
-        type: 'success',
-        text1: `Tarefa: ${taskSelected.title} editada`,
-      });
-    }
-
-    const toggleCompleteModal = () => {
-      setCompleteModal(!isCompleteModal);
-    };
-
-    const toggleDeleteModal = () => {
-      setDeleteModal(!isDeleteModal);
-    };
-
-    const toggleEditModal = () => {
-      setEditModal(!isEditModal);
-    }
+  
+  const {
+    textInput,
+    setTextInput,
+    pressed,
+    setPressed,
+    toggleCompleteModal,
+    isCompleteModal,
+    setCompleteModal,
+    selected,
+    setSelected,
+    handleComplete,
+    sourceName,
+    setSourceName,
+    
+  } = useNotifications({
+  });
+   
 
   const { 
-    tasks,
-    deleteTask, 
     addTask,
+    deleteTask,
+    listDone,
+    listTodo,
+    getData,
+    updateTaskName,
     updateTaskToCompleted,
-    updateTaskName
-   } = useTasks();
-   
-   const listTodo = tasks.filter((task) => task.completed === false);
-    const listDone = tasks.filter((task) => task.completed === true);
+    tasks,
+   } = useTasks({});
 
+   const {
+    addSuccess,
+    deleteSuccess,
+    editSucess,
+    completeSuccess,
+   } = useToast();
 
-
-  const handleTextInput = () => {
-    {
-      if(checkInput(textInput, addSuccess  )){
-        addTask(textInput);
-        setTextInput('');
-      }
-    }
-  }
-
-  const handleEditTextInput = () => {
-      if(checkInput(taskName, editSucess )){
-        updateTaskName(taskName, taskSelected.id);
-        setTaskName('');
-        toggleEditModal();
-      }
-  }
-
-
-
-
-  return (
+   return (
     <TemplatePage>
       <Header>
         <TextName name="Tarefas" />
@@ -119,7 +70,8 @@ export default function Tasks() {
               title={'A fazer'}
               pressed={pressed === 'A fazer'} 
               onPress={() => { 
-                setPressed('A fazer'); 
+                setPressed('A fazer');
+                getData(); 
               }}
               primaryButtonStyle={{width: 100, backgroundColor:colors.background}}
             />
@@ -127,7 +79,8 @@ export default function Tasks() {
               title={'Feitas'}
               pressed={pressed === 'Feitas'} 
               onPress={() =>{
-                setPressed('Feitas'); 
+                setPressed('Feitas');
+                getData(); 
               }}
               primaryButtonStyle={{width: 100, backgroundColor:colors.background}}
             />
@@ -141,11 +94,12 @@ export default function Tasks() {
             <List
             sources={listTodo}
             onPressed={toggleCompleteModal}
-            toggleDeleteModal={toggleDeleteModal}
-            toggleEditModal={toggleEditModal}
-            selectedSource={setTaskSelected}
+            toggleDeleteModal={toggleCompleteModal}
+            toggleEditModal={toggleCompleteModal}
+            selectedSource={setSelected}
             editSource={updateTaskName}
-            deleteSource={deleteTask}
+            deleteSource={toggleCompleteModal}
+
             />
           ): (
             <List
@@ -166,43 +120,45 @@ export default function Tasks() {
     </Body>
     <CustomAlert 
       text={'Deseja excluir a tarefa:'}
-      taskTitle={taskSelected.title}
-      isModalVisible={isDeleteModal}
-      toggleModal={toggleDeleteModal}
-      actionCallback={deleteTask}
+      taskTitle={selected.title}
+      isModalVisible={isCompleteModal}
+      toggleModal={toggleCompleteModal}
+      actionCallback={handleComplete}
       callback={deleteSuccess}
-      id={taskSelected.id}
+      id={selected.id}
       />
 
     <CustomAlert
       text={'Deseja completar a tarefa:'}
-      taskTitle={taskSelected.title}
+      taskTitle={selected.title}
       isModalVisible={isCompleteModal}
       toggleModal={toggleCompleteModal}
       actionCallback={updateTaskToCompleted}
-      callback={completeSucess}
-      id={taskSelected.id}
+      callback={handleComplete}
+      id={selected.id}
       />
 
       <CustomAlert
       text={'Deseja editar a tarefa:'}
-      taskTitle={taskSelected.title}
-      isModalVisible={isEditModal}
-      toggleModal={toggleEditModal}
+      taskTitle={selected.title}
+      isModalVisible={isCompleteModal}
+      toggleModal={toggleCompleteModal}
       actionCallback={updateTaskName}
-      id={taskSelected.id}
+      id={selected.id}
       updateTask={true}
-      value={taskName}
+      value={sourceName}
       callback={editSucess}
-      onChangeText={setTaskName}
-      onPressToUpdateName={() =>{
-        handleEditTextInput()
-      }}
+      onChangeText={setSourceName}
+      onPressToUpdateName={handleComplete}
       />
+      
     </TemplatePage>
 
   );
-}
+
+   }
+   
+
 
 const styles = StyleSheet.create({
   container:{
