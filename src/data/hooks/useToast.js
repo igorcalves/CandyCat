@@ -1,3 +1,5 @@
+import Toast from "react-native-toast-message";
+
 export default function useToast() {
   const addSuccess = () => {
     Toast.show({
@@ -7,31 +9,31 @@ export default function useToast() {
   }
 
 
-  const deleteSuccess = () => {
+  const deleteSuccess = (sourceName) => {
     Toast.show({
       type: 'success',
-      text1: `Tarefa: ${taskSelected.title} deletada`,
+      text1: `Tarefa: ${sourceName} deletada`,
     });
   }
 
-  const completeSucess = () => {
+  const completeSuccess = (sourceName) => {
     Toast.show({
       type: 'success',
-      text1: `Tarefa: ${taskSelected.title} completa`,
+      text1: `Tarefa: ${sourceName} completa`,
     });
   }
 
-  const editSucess = () => {
+  const editSuccess = (sourceName) => {
     Toast.show({
       type: 'success',
-      text1: `Tarefa: ${taskSelected.title} editada`,
+      text1: `Tarefa: ${sourceName} editada`,
     });
   }
 
   return {
     addSuccess,
     deleteSuccess,
-    completeSucess,
-    editSucess,
+    completeSuccess,
+    editSuccess,
   }
 }

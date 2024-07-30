@@ -11,26 +11,8 @@ import List from '../components/data/List';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import colors from '../consts/colors';
 import useNotifications from '../data/hooks/useNotifications';
-import useToast from '../data/hooks/useToast';
 export default function Tasks() {
-  
-  const {
-    textInput,
-    setTextInput,
-    pressed,
-    setPressed,
-    toggleCompleteModal,
-    isCompleteModal,
-    setCompleteModal,
-    selected,
-    setSelected,
-    handleComplete,
-    sourceName,
-    setSourceName,
-    
-  } = useNotifications({
-  });
-   
+
 
   const { 
     addTask,
@@ -40,16 +22,37 @@ export default function Tasks() {
     getData,
     updateTaskName,
     updateTaskToCompleted,
-    tasks,
    } = useTasks({});
 
-   const {
-    addSuccess,
-    deleteSuccess,
-    editSucess,
-    completeSuccess,
-   } = useToast();
 
+
+  
+  const {
+    textInput,
+    setTextInput,
+    pressed,
+    setPressed,
+    toggleCompleteModal,
+    toggleEditModal,
+    toggleDeleteModal,
+    isCompleteModal,
+    isEditModal,
+    isDeleteModal,
+    selected,
+    setSelected,
+    handleComplete,
+    sourceName,
+    setSourceName,
+    handleTextInput,
+    handleEditTextInput,
+    handleDelete
+  } = useNotifications({
+    addFunction: addTask,
+    updateNameFunction: updateTaskName,
+    updateCompletedFunction: updateTaskToCompleted,
+    deleteFunction: deleteTask,
+  });
+ 
    return (
     <TemplatePage>
       <Header>
@@ -64,7 +67,6 @@ export default function Tasks() {
         onChangeText={setTextInput}
         onPress={() => handleTextInput()} 
       />
-
           <View style={styles.buttons}>
             <PrimaryButton
               title={'A fazer'}
@@ -95,7 +97,7 @@ export default function Tasks() {
             sources={listTodo}
             onPressed={toggleCompleteModal}
             toggleDeleteModal={toggleCompleteModal}
-            toggleEditModal={toggleCompleteModal}
+            toggleEditModal={toggleEditModal}
             selectedSource={setSelected}
             editSource={updateTaskName}
             deleteSource={toggleCompleteModal}
@@ -118,38 +120,37 @@ export default function Tasks() {
     </View>
     
     </Body>
-    <CustomAlert 
-      text={'Deseja excluir a tarefa:'}
-      taskTitle={selected.title}
-      isModalVisible={isCompleteModal}
-      toggleModal={toggleCompleteModal}
-      actionCallback={handleComplete}
-      callback={deleteSuccess}
-      id={selected.id}
-      />
+    
 
     <CustomAlert
       text={'Deseja completar a tarefa:'}
       taskTitle={selected.title}
       isModalVisible={isCompleteModal}
       toggleModal={toggleCompleteModal}
-      actionCallback={updateTaskToCompleted}
-      callback={handleComplete}
+      actionCallback={handleComplete}
       id={selected.id}
       />
 
       <CustomAlert
       text={'Deseja editar a tarefa:'}
       taskTitle={selected.title}
-      isModalVisible={isCompleteModal}
-      toggleModal={toggleCompleteModal}
+      isModalVisible={isEditModal}
+      toggleModal={toggleEditModal}
       actionCallback={updateTaskName}
       id={selected.id}
       updateTask={true}
       value={sourceName}
-      callback={editSucess}
       onChangeText={setSourceName}
-      onPressToUpdateName={handleComplete}
+      onPressToUpdateName={handleEditTextInput}
+      />
+
+      <CustomAlert 
+      text={'Deseja excluir a tarefa:'}
+      taskTitle={selected.title}
+      isModalVisible={isDeleteModal}
+      toggleModal={toggleDeleteModal}
+      actionCallback={handleDelete}
+      id={selected.id}
       />
       
     </TemplatePage>

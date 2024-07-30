@@ -11,7 +11,6 @@ export default function CustomAlert({
     actionCallback,
     id,
     taskTitle,
-    callback,
     text,
     value,
     onChangeText,
@@ -29,7 +28,6 @@ export default function CustomAlert({
                 onPress={() => {
                     toggleModal();
                     actionCallback(id);
-                    callback && callback();
                 }}
                 />
                 <PrimaryButton

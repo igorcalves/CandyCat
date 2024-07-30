@@ -1,7 +1,7 @@
 import Toast from 'react-native-toast-message';
 
 
-export const checkInput = (textInput, callback) => {
+export const checkInput = (textInput, callback, title) => {
     if (textInput === '') {
 
       Toast.show({
@@ -21,6 +21,6 @@ export const checkInput = (textInput, callback) => {
       return false;
     }
   
-    callback && callback();
+    callback && callback(title);
     return true;
   }

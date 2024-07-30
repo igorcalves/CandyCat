@@ -1,12 +1,21 @@
 import { useState } from 'react';
+import { checkInput } from '../../utils/input/inputValitions';
+import useToast from './useToast';
 
 export default function useNotifications({
   addFunction,
   deleteFunction,
   updateCompletedFunction,
   updateNameFunction,
-  getData,
 }) {
+
+  const {
+    addSuccess,
+    deleteSuccess,
+    editSuccess,
+    completeSuccess,
+   } = useToast(
+   );
 
   const [textInput, setTextInput] = useState('');
   const [sourceName, setSourceName] = useState('');
@@ -28,31 +37,39 @@ export default function useNotifications({
     setEditModal(!isEditModal);
   };
 
+  const handleTextInput = () => {
+    {
+      if(checkInput(textInput, addSuccess, selected.title)){
+        addFunction(textInput);
+        setTextInput('');
+      }
+    }
+  }
+
   const handleEditTextInput = () => {
-    if (checkInput(taskName, editSuccess)) {
-      updateNameFunction(taskName, selected.id);
-      setTaskName('');
+    if (checkInput(sourceName, editSuccess, selected.title)) {
+      updateNameFunction(sourceName, selected.id);
+      setSourceName('');
       toggleEditModal();
-      getData();
     }
   };
 
   const handleDelete = () => {
     deleteFunction(selected.id);
+    deleteSuccess(selected.title);
     toggleDeleteModal();
-    getData();
   };
 
   const handleComplete = () => {
-    console.log('selected', selected);
-    // updateCompletedFunction(selected.id);
-    // toggleCompleteModal();
-    // getData();
+    updateCompletedFunction(selected.id);
+    completeSuccess(selected.title);
+    toggleCompleteModal();
   };
 
   return {
     toggleCompleteModal,
     toggleDeleteModal,
+    handleTextInput,
     toggleEditModal,
     handleEditTextInput,
     handleDelete,
@@ -68,5 +85,8 @@ export default function useNotifications({
     textInput,
     setPressed,
     pressed,
+    sourceName,
+    setSourceName,
+
   };
 }
