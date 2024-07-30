@@ -13,10 +13,6 @@ import app from '../services/firebaseApp';
 
 
 export const useTasks = () => {
-
-    
-
-
     const db = getFirestore(app);
 
     const [tasks, setTasks] = useState([]);

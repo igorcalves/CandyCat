@@ -5,7 +5,7 @@ import TemplatePage from './TeamplatePage';
 import Header from '../components/pageComponents/Header';
 import TextName from '../components/pageComponents/TextName';
 import Body from '../components/pageComponents/Body';
-import { useTasks } from '../data/hooks/useDB';
+import { useTasks } from '../data/hooks/useTasks';
 import CustomAlert from '../components/modals/ActionModal';
 import List from '../components/data/List';
 import PrimaryButton from '../components/buttons/PrimaryButton';
