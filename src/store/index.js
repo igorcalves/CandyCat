@@ -3,9 +3,10 @@ import loginReducer from './user/reducers';
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './rootSaga'
-
+import tasksReducer from './tasks/reducers'
 const rootReducer = combineReducers({
-  login: loginReducer
+  login: loginReducer,
+  tasks: tasksReducer
 });
 
 

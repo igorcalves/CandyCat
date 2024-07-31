@@ -7,7 +7,6 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import { loginRequest } from "../store/user/actions";
 
-import Toast from "react-native-toast-message";
 
 export const Login = ({ login }) => {
   const navigation = useNavigation();

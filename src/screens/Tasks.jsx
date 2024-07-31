@@ -1,32 +1,65 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import TextInputWithButton from '../components/inputs/TextInputWithButton';
 import TemplatePage from './TeamplatePage';
 import Header from '../components/pageComponents/Header';
 import TextName from '../components/pageComponents/TextName';
 import Body from '../components/pageComponents/Body';
-import { useTasks } from '../data/hooks/useTasks';
 import CustomAlert from '../components/modals/ActionModal';
-import List from '../components/data/List';
 import PrimaryButton from '../components/buttons/PrimaryButton';
 import colors from '../consts/colors';
 import useNotifications from '../data/hooks/useNotifications';
-export default function Tasks() {
+import { connect } from 'react-redux';
+import { getTasksRequest } from '../store/tasks/actions';
+import useTasks from '../data/hooks/useTasks';
+import List from '../components/data/List';
 
 
-  const { 
-    addTask,
-    deleteTask,
-    listDone,
+const Tasks = ({
+  getTask,
+  tasks,
+
+}) => {
+
+  const {
     listTodo,
-    getData,
-    updateTaskName,
-    updateTaskToCompleted,
-   } = useTasks({});
+    listTodoFunction,
+    listDone,
+    listDoneFunction,
+  } = useTasks();
 
 
 
-  
+  useEffect(() => {
+    getTask();
+    
+  }, []);
+
+  useEffect(() => {
+    listTodoFunction(tasks.tasks);
+    listDoneFunction(tasks.tasks);
+    console.log(listDone)
+  }, [tasks]);
+
+
+
+
+  const addTask = () =>{
+    console.log("addTaskAction")
+  }
+
+  const deleteTask = () =>{
+    console.log("deleteTaskAction")
+  }
+
+  const updateTaskName = () =>{
+    console.log("updateTaskNameAction")
+  }
+
+  const updateTaskToCompleted = () =>{
+    console.log("updateTaskToCompletedAction")
+  }
+
   const {
     textInput,
     setTextInput,
@@ -73,7 +106,6 @@ export default function Tasks() {
               pressed={pressed === 'A fazer'} 
               onPress={() => { 
                 setPressed('A fazer');
-                getData(); 
               }}
               primaryButtonStyle={{width: 100, backgroundColor:colors.background}}
             />
@@ -82,7 +114,6 @@ export default function Tasks() {
               pressed={pressed === 'Feitas'} 
               onPress={() =>{
                 setPressed('Feitas');
-                getData(); 
               }}
               primaryButtonStyle={{width: 100, backgroundColor:colors.background}}
             />
@@ -183,3 +214,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   }
 })
+
+const mapStateToProps = (state) => ({
+  tasks: state.tasks,
+  loading: state.loading,
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  getTask: () => dispatch(getTasksRequest()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

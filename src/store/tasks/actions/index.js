@@ -26,10 +26,9 @@ export function createTaskFailure(data, callbackError) {
     };
 }
 
-export function getTasksRequest(data, callback, callbackError) {
+export function getTasksRequest(callback, callbackError) {
     return {
         type: types.GET_TASKS_REQUEST,
-        data,
         callback,
         callbackError
     };

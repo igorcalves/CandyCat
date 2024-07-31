@@ -1,48 +1,26 @@
 import { useState, useEffect } from 'react';
 import fakeDB from '../db/fakeDB';
-import { 
-    getFirestore, 
-    collection, 
-    getDocs, 
-    doc,
-    updateDoc,
-    setDoc,
-    deleteDoc
-} from "firebase/firestore";
-import app from '../services/firebaseApp';
 
 
-export const useTasks = () => {
-    const db = getFirestore(app);
 
-    const [tasks, setTasks] = useState([]);
+
+export default useTasks = () => {
+
     const [listTodo, setListTodo] = useState([]);
     const [listDone, setListDone] = useState([]);
 
-
-    const getData = async () => {
-        try {
-            const querySnapshot = await getDocs(collection(db, "tasks"));
-            const data = [];
-            querySnapshot.forEach((doc) => {
-                const task = doc.data();
-                if (task.date) {
-                    task.date = task.date.toDate();
-                }
-                data.push(task);
-            });
-            setTasks(sortByDate(data));
-            setListTodo(sortByDate(data.filter((task) => !task.completed)));
-            setListDone(sortByDate(data.filter((task) => task.completed))); 
-        } catch (e) {
-
-            console.error("Error fetching documents: ", e);
-        }
-    };
-    
-    useEffect(() => {
-        getData();
-    }, []);
+    const listTodoFunction = (tasks) => {
+        setListTodo(tasks.filter((task) => !task.completed).map(task => ({
+            ...task,
+            date: task.date.toDate()
+        })));
+    }
+    const listDoneFunction = (tasks) => {
+        setListDone(tasks.filter((task) => task.completed).map(task => ({
+            ...task,
+            date: task.date.toDate()
+        })));
+    }
 
 
     const sortByDate = (tasks) => {
@@ -112,14 +90,9 @@ export const useTasks = () => {
     }
 
     return { 
-        tasks,
         listTodo,
-        listDone, 
-        addTask, 
-        deleteTask,
-        updateTaskToCompleted,
-        updateTaskName,
-        getData,
-
+        listTodoFunction,
+        listDone,
+        listDoneFunction,
       };
 };

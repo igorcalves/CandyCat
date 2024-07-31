@@ -48,20 +48,20 @@ export default function useNotifications({
 
   const handleEditTextInput = () => {
     if (checkInput(sourceName, editSuccess, selected.title)) {
-      updateNameFunction(sourceName, selected.id);
+      // updateNameFunction(sourceName, selected.id);
       setSourceName('');
       toggleEditModal();
     }
   };
 
   const handleDelete = () => {
-    deleteFunction(selected.id);
+    // deleteFunction(selected.id);
     deleteSuccess(selected.title);
     toggleDeleteModal();
   };
 
   const handleComplete = () => {
-    updateCompletedFunction(selected.id);
+    // updateCompletedFunction(selected.id);
     completeSuccess(selected.title);
     toggleCompleteModal();
   };

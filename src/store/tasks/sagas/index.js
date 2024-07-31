@@ -1,26 +1,46 @@
 import app from '../../../data/services/firebaseApp';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import * as types from '../types'
 
-import { useTasks } from '../../../data/hooks/useTasks';
 import { getTasksSuccess, getTasksFailure, getTasksRequest } from '../actions';
 
+import { 
+    getFirestore, 
+    collection, 
+    getDocs, 
+    doc,
+    updateDoc,
+    setDoc,
+    deleteDoc
+} from "firebase/firestore";
 
-const {
-    addTask,
-    deleteTask,
-    getData,
-    updateTaskName,
-    updateTaskToCompleted,
-    } = useTasks();
+const db = getFirestore(app);
+const getData = async (callbackError) => {
+    try {
+        const tasksCollection = collection(db, "tasks");
+        const tasksSnapshot = await getDocs(tasksCollection);
+        const tasksList = tasksSnapshot.docs.map(doc => doc.data());
+        return tasksList;
+        
+    } catch (error) {
+        console.error("Error getting documents: ", error);
+        callbackError && callbackError();
+        
+    }
+    
+};
 
 
 
-function* getTasksSaga({ callback }) {
-    const response = yield call(getData, callback);
+
+function* getTasksSaga({ callback, callbackError }) {
+    const response = yield call(getData, callbackError);
     if (response) {
         yield put(getTasksSuccess(response));
         callback && callback();
     } else {
         yield put(getTasksFailure());
+        callbackError && callbackError();
     }
 }
 
@@ -31,8 +51,11 @@ function* addTaskSaga({ data, callback, callbackError }) {
         callback && callback();
     } else {
         yield put(addTaskFailure());
+        callbackError && callbackError();
+
     }
 }
+
 
 function* deleteTaskSaga({ data, callback, callbackError }) {
     const response = yield call(deleteTask, data, callback, callbackError);
@@ -64,11 +87,24 @@ function* updateTaskToCompletedSaga({ data, callback, callbackError }) {
     }
 }
 
-export default function* tasksSaga() {
+export function* rootGetTasks() {
     yield takeLatest(types.GET_TASKS_REQUEST, getTasksSaga);
+}
+
+export function* rootAddTask() {
     yield takeLatest(types.ADD_TASK_REQUEST, addTaskSaga);
+}
+
+export function* rootDeleteTask() {
     yield takeLatest(types.DELETE_TASK_REQUEST, deleteTaskSaga);
+}
+
+export function* rootUpdateTaskName() {
     yield takeLatest(types.UPDATE_TASK_NAME_REQUEST, updateTaskNameSaga);
+}
+
+export function* rootUpdateTaskToCompleted() {
     yield takeLatest(types.UPDATE_TASK_TO_COMPLETED_REQUEST, updateTaskToCompletedSaga);
 }
+
 
