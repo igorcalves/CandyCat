@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import TextInputWithButton from '../components/inputs/TextInputWithButton';
 import TemplatePage from './TeamplatePage';
 import Header from '../components/pageComponents/Header';
@@ -10,16 +10,31 @@ import PrimaryButton from '../components/buttons/PrimaryButton';
 import colors from '../consts/colors';
 import useNotifications from '../data/hooks/useNotifications';
 import { connect } from 'react-redux';
-import { getTasksRequest } from '../store/tasks/actions';
+import { 
+  getTasksRequest,
+  createTaskRequest,
+  deleteTaskRequest,
+  updateTaskToCompletedRequest,
+  updateTaskNameRequest
+
+} from '../store/tasks/actions';
 import useTasks from '../data/hooks/useTasks';
 import List from '../components/data/List';
 
 
 const Tasks = ({
   getTask,
-  tasks,
+  tasks, 
+  addTask,
+  deleteTask,
+  updateTaskToCompleted,
+  updateTaskName,
+  email,
+  loading
 
 }) => {
+
+
 
   const {
     listTodo,
@@ -30,35 +45,16 @@ const Tasks = ({
 
 
 
-  useEffect(() => {
-    getTask();
-    
-  }, []);
+   useEffect(() => {
+     getTask(false);
+      console.log(tasks)
+   }, []);
 
-  useEffect(() => {
-    listTodoFunction(tasks.tasks);
-    listDoneFunction(tasks.tasks);
-    console.log(listDone)
-  }, [tasks]);
+  
 
 
 
 
-  const addTask = () =>{
-    console.log("addTaskAction")
-  }
-
-  const deleteTask = () =>{
-    console.log("deleteTaskAction")
-  }
-
-  const updateTaskName = () =>{
-    console.log("updateTaskNameAction")
-  }
-
-  const updateTaskToCompleted = () =>{
-    console.log("updateTaskToCompletedAction")
-  }
 
   const {
     textInput,
@@ -84,7 +80,11 @@ const Tasks = ({
     updateNameFunction: updateTaskName,
     updateCompletedFunction: updateTaskToCompleted,
     deleteFunction: deleteTask,
+    email
   });
+
+
+
  
    return (
     <TemplatePage>
@@ -105,7 +105,8 @@ const Tasks = ({
               title={'A fazer'}
               pressed={pressed === 'A fazer'} 
               onPress={() => { 
-                setPressed('A fazer');
+                setPressed('A fazer')
+                getTask(false);
               }}
               primaryButtonStyle={{width: 100, backgroundColor:colors.background}}
             />
@@ -114,6 +115,7 @@ const Tasks = ({
               pressed={pressed === 'Feitas'} 
               onPress={() =>{
                 setPressed('Feitas');
+                getTask(true);
               }}
               primaryButtonStyle={{width: 100, backgroundColor:colors.background}}
             />
@@ -123,26 +125,33 @@ const Tasks = ({
 
       <View style={styles.scroll}>
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-          {pressed === 'A fazer' ? (
+
+           {
+            loading ?
+            <ActivityIndicator 
+            color={colors.strongBlue} 
+            style={styles.activityIndicator}
+            size={70}
+            />
+          : pressed === 'A fazer' ? (
             <List
-            sources={listTodo}
+            sources={tasks}
             onPressed={toggleCompleteModal}
-            toggleDeleteModal={toggleCompleteModal}
+            toggleDeleteModal={toggleDeleteModal}
             toggleEditModal={toggleEditModal}
             selectedSource={setSelected}
-            editSource={updateTaskName}
-            deleteSource={toggleCompleteModal}
-
+            
             />
           ): (
             <List
-            sources={listDone}
+            sources={tasks}
             disable={true}
             editable={false}
             presseble={false}
             />
           )
-          }
+        
+      }  
 
         </ScrollView>
       </View>
@@ -212,17 +221,26 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 80,
     marginBottom: 20,
-  }
+  },
+  activityIndicator: {
+    marginTop: 50,
+  },
 })
 
 const mapStateToProps = (state) => ({
-  tasks: state.tasks,
-  loading: state.loading,
+  tasks: state.tasks.tasks,
+  loading: state.tasks.loading,
+  email: state.login.user.email,
+  
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
-  getTask: () => dispatch(getTasksRequest()),
+  getTask: (status) => dispatch(getTasksRequest(status)),
+  addTask: (data, callback, callbackError) => dispatch(createTaskRequest(data, callback, callbackError)),
+  deleteTask: (data, callback, callbackError) => dispatch(deleteTaskRequest(data, callback, callbackError)),
+  updateTaskToCompleted: (data, callback, callbackError) => dispatch(updateTaskToCompletedRequest(data, callback, callbackError)),
+  updateTaskName: (data, callback, callbackError) => dispatch(updateTaskNameRequest(data, callback, callbackError)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

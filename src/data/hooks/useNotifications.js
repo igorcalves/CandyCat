@@ -7,6 +7,7 @@ export default function useNotifications({
   deleteFunction,
   updateCompletedFunction,
   updateNameFunction,
+  email,
 }) {
 
   const {
@@ -14,6 +15,7 @@ export default function useNotifications({
     deleteSuccess,
     editSuccess,
     completeSuccess,
+    error
    } = useToast(
    );
 
@@ -37,34 +39,35 @@ export default function useNotifications({
     setEditModal(!isEditModal);
   };
 
+  const getFirst = (email) => email.split('@');
+
+
   const handleTextInput = () => {
-    {
       if(checkInput(textInput, addSuccess, selected.title)){
-        addFunction(textInput);
+        addFunction({ title: textInput, email: getFirst(email)[0] }, addSuccess, error );
         setTextInput('');
       }
-    }
   }
 
   const handleEditTextInput = () => {
     if (checkInput(sourceName, editSuccess, selected.title)) {
-      // updateNameFunction(sourceName, selected.id);
+      updateNameFunction({ title: sourceName, id: selected.id }, editSuccess, error);
       setSourceName('');
       toggleEditModal();
     }
   };
 
   const handleDelete = () => {
-    // deleteFunction(selected.id);
-    deleteSuccess(selected.title);
+    deleteFunction(selected.id, deleteSuccess, error);
     toggleDeleteModal();
   };
 
   const handleComplete = () => {
-    // updateCompletedFunction(selected.id);
-    completeSuccess(selected.title);
+    updateCompletedFunction({id: selected.id, email: getFirst(email)[0]}, completeSuccess, error);
     toggleCompleteModal();
   };
+
+
 
   return {
     toggleCompleteModal,

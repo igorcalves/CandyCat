@@ -8,7 +8,6 @@ export default allAlertsModals = (
     handleComplete
 ) => {
 
-    console.log(toggleCompleteModal)
 
     return (
         <>

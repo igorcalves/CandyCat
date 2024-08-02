@@ -2,7 +2,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import colors from '../../consts/colors';
 import PrimaryButton from '../buttons/PrimaryButton';
-import { call } from 'redux-saga/effects';
 import TextInput from '../inputs/TextInput';
 
 export default function CustomAlert({
@@ -26,8 +25,8 @@ export default function CustomAlert({
                 title="Sim"
                 primaryButtonStyle={{width: 100}}   
                 onPress={() => {
-                    toggleModal();
                     actionCallback(id);
+                    toggleModal();
                 }}
                 />
                 <PrimaryButton

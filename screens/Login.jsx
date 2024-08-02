@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signout } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { experimentalSetDeliveryMetricsExportedToBigQueryEnabled } from "firebase/messaging/sw";
 import firebaseConfig  from "../../data/fireabaseBaseConfig";
 
 const app = initializeApp(firebaseConfig);

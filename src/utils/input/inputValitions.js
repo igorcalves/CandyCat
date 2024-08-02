@@ -21,6 +21,5 @@ export const checkInput = (textInput, callback, title) => {
       return false;
     }
   
-    callback && callback(title);
     return true;
   }

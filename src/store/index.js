@@ -6,7 +6,7 @@ import rootSaga from './rootSaga'
 import tasksReducer from './tasks/reducers'
 const rootReducer = combineReducers({
   login: loginReducer,
-  tasks: tasksReducer
+  tasks: tasksReducer,
 });
 
 

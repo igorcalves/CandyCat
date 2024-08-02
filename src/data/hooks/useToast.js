@@ -1,32 +1,40 @@
 import Toast from "react-native-toast-message";
 
 export default function useToast() {
-  const addSuccess = () => {
+  const addSuccess = (type) => {
     Toast.show({
       type: 'success',
-      text1: 'Tarefa adicionada',
+      text1: `${type} adicionada`,
     });
   }
 
 
-  const deleteSuccess = (sourceName) => {
+  const deleteSuccess = (type) => {
     Toast.show({
       type: 'success',
-      text1: `Tarefa: ${sourceName} deletada`,
+      text1: `${type} deletada`,
     });
   }
 
-  const completeSuccess = (sourceName) => {
+
+  const completeSuccess = (type) => {
     Toast.show({
       type: 'success',
-      text1: `Tarefa: ${sourceName} completa`,
+      text1: `${type} concluída`,
     });
   }
 
-  const editSuccess = (sourceName) => {
+  const editSuccess = (type) => {
     Toast.show({
       type: 'success',
-      text1: `Tarefa: ${sourceName} editada`,
+      text1: `${type} editada`,
+    });
+  }
+
+  const error = (sourceName) => {
+    Toast.show({
+      type: 'error',
+      text1: sourceName,
     });
   }
 
@@ -35,5 +43,6 @@ export default function useToast() {
     deleteSuccess,
     completeSuccess,
     editSuccess,
+    error
   }
 }

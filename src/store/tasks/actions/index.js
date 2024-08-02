@@ -18,7 +18,7 @@ export function createTaskSuccess(data, callback, callbackError) {
     };
 }
 
-export function createTaskFailure(data, callbackError) {
+export function createTasksFailure(data, callbackError) {
     return {
         type: types.ADD_TASK_FAILURE,
         data,
@@ -26,9 +26,10 @@ export function createTaskFailure(data, callbackError) {
     };
 }
 
-export function getTasksRequest(callback, callbackError) {
+export function getTasksRequest(data,callback, callbackError) {
     return {
         type: types.GET_TASKS_REQUEST,
+        data,
         callback,
         callbackError
     };
@@ -51,7 +52,7 @@ export function getTasksFailure(data, callbackError) {
     };
 }
 
-export function updateTaskRequest(data, callback, callbackError) {
+export function updateTaskNameRequest(data, callback, callbackError) {
     return {
         type: types.UPDATE_TASK_NAME_REQUEST,
         data,
@@ -60,7 +61,7 @@ export function updateTaskRequest(data, callback, callbackError) {
     };
 }
 
-export function updateTaskSuccess(data, callback, callbackError) {
+export function updateTaskNameSuccess(data, callback, callbackError) {
     return {
         type: types.UPDATE_TASK_NAME_SUCCESS,
         data,
@@ -69,7 +70,7 @@ export function updateTaskSuccess(data, callback, callbackError) {
     };
 }
 
-export function updateTaskFailure(data, callbackError) {
+export function updateTaskNameFailure(data, callbackError) {
     return {
         type: types.UPDATE_TASK_NAME_FAILURE,
         data,
@@ -78,6 +79,7 @@ export function updateTaskFailure(data, callbackError) {
 }
 
 export function deleteTaskRequest(data, callback, callbackError) {
+
     return {
         type: types.DELETE_TASK_REQUEST,
         data,

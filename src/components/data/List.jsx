@@ -3,7 +3,6 @@ import AtualizationCard from "../card/AtualizationCard";
 export default function List({
     sources,
     onPressed,
-    deleteSource,
     toggleEditModal,
     toggleDeleteModal,
     disable = false,
@@ -33,7 +32,6 @@ export default function List({
                     }}
                     onPressDelete={() => {
                         selectedSource(source);
-                        deleteSource(source);
                         toggleDeleteModal();
                     }}
                 />
