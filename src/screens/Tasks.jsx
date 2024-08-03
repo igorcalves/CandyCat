@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
-import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
+import { View, ScrollView, ActivityIndicator } from 'react-native'
 import TextInputWithButton from '../components/inputs/TextInputWithButton'
 import TemplatePage from './TeamplatePage'
 import Header from '../components/pageComponents/Header'
@@ -11,6 +11,7 @@ import PrimaryButton from '../components/buttons/PrimaryButton'
 import colors from '../consts/colors'
 import useNotifications from '../data/hooks/useNotifications'
 import { connect } from 'react-redux'
+import styles from '../consts/screensStyles'
 import {
   getTasksRequest,
   createTaskRequest,
@@ -128,6 +129,7 @@ const Tasks = ({
                   sources={tasks}
                   disable={true}
                   editable={false}
+                  iconName={'Check'}
                   presseble={false}
                 />
               )}
@@ -169,32 +171,6 @@ const Tasks = ({
     </TemplatePage>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    flex: 1,
-    alignItems: 'center',
-  },
-  input: {
-    width: 350,
-  },
-  scroll: {
-    width: '100%',
-    flex: 1,
-    paddingHorizontal: 10,
-  },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 80,
-    marginBottom: 20,
-  },
-  activityIndicator: {
-    marginTop: 50,
-  },
-})
 
 const mapStateToProps = (state) => ({
   tasks: state.tasks.tasks,

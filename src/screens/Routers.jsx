@@ -13,7 +13,7 @@ export default function Routers() {
 
   return (
     <NavigationContainer>
-      <stack.Navigator initialRouteName="Home">
+      <stack.Navigator initialRouteName="Money">
         <stack.Screen
           name="Login"
           component={Login}

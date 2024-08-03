@@ -1,32 +1,68 @@
-
-
-
 export default fakeDB = {
-    tasks:[
+  tasks: [],
+  users: [
+    {
+      id: 1,
+      name: 'Teste 1',
+      email: 'Teste1@gmail.com',
+    },
+    {
+      id: 2,
+      name: 'Teste 2',
+      email: 'Teste2@Gmail.com',
+    },
+  ],
+  money: {
+    savedMoney: [
+      {
+        id: 1,
+        title: 100,
+        date: new Date(),
+        description: 'Salário',
+      },
     ],
-    users: [
-        {
-            id: 1,
-            name: 'Teste 1',
-            email: 'Teste1@gmail.com'
-        },
-        {
-            id: 2,
-            name: 'Teste 2',
-            email: 'Teste2@Gmail.com'
-        }
-    ]
-            
+    spentMoney: [
+      {
+        id: 1,
+        title: 100,
+        date: new Date(),
+        description: 'Compras',
+      },
+    ],
+    wishList: [
+      {
+        id: 1,
+        title: 100,
+        date: new Date(),
+        forMe: true,
+        description: 'Presente',
+      },
+    ],
+  },
 }
 
-for (let i = 0; i <= 15; i++) {
-    fakeDB.tasks.push({
-        id: i,
-        iconId: i,
-        userId: 1, 
-        title: `Task ${i}`,
-        completed: i % 2 === 0? true : false,
-        date: new Date(),
-        description: `Criado por ${fakeDB.users[0].name}`,
-    });
+for (let i = 2; i <= 6; i++) {
+  fakeDB.money.savedMoney.push({
+    id: i,
+    title: (10.23 * i).toFixed(2),
+    date: new Date(),
+    description: `Criado por ${i}`,
+  })
+}
+
+for (let i = 2; i <= 6; i++) {
+  fakeDB.money.spentMoney.push({
+    id: i,
+    title: 50 * i,
+    date: new Date(),
+    description: `Compra ${i}`,
+  })
+
+  fakeDB.money.wishList.push({
+    id: i,
+    title: 200 * i,
+    date: new Date(),
+    forMe: i % 2 === 0,
+    description: `Carrinho de brinquedo ${i}`,
+  })
 }
