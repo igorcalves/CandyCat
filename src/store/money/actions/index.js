@@ -74,3 +74,104 @@ export function updateMoneyFailure(data, callbackError) {
     callbackError,
   }
 }
+
+export function deleteMoneyRequest(data, callbackError) {
+  return {
+    type: types.DELETE_MONEY_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function deleteMoneySuccess(data, callback, callbackError) {
+  return {
+    type: types.DELETE_MONEY_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function deleteMoneyFailure(data, callbackError) {
+  return {
+    type: types.DELETE_MONEY_FAILURE,
+    data,
+    callbackError,
+  }
+}
+
+export function getTotalRequest(data, callbackError) {
+  return {
+    type: types.GET_TOTAL_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function getTotalSuccess(data, callback, callbackError) {
+  return {
+    type: types.GET_TOTAL_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function getTotalFailure(data, callbackError) {
+  return {
+    type: types.GET_TOTAL_FAILURE,
+    data,
+    callbackError,
+  }
+}
+
+export function depositMoneyRequest(data, callbackError) {
+  return {
+    type: types.DEPOSIT_MONEY_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function depositMoneySuccess(data, callback, callbackError) {
+  console.log('data', data)
+  return {
+    type: types.DEPOSIT_MONEY_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function depositMoneyFailure(data, callbackError) {
+  return {
+    type: types.DEPOSIT_MONEY_FAILURE,
+    data,
+    callbackError,
+  }
+}
+
+export function debtMoneyRequest(data, callbackError) {
+  return {
+    type: types.DEBT_MONEY_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function debtMoneySuccess(data, callback, callbackError) {
+  return {
+    type: types.DEBT_MONEY_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function debtMoneyFailure(data, callbackError) {
+  return {
+    type: types.DEBT_MONEY_FAILURE,
+    data,
+    callbackError,
+  }
+}

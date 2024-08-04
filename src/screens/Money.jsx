@@ -17,6 +17,8 @@ import {
   addMoneyRequest,
   getSavedMoneyRequest,
   updateMoneyRequest,
+  deleteMoneyRequest,
+  getTotalRequest,
 } from '../store/money/actions'
 import CustomAlert from '../components/modals/ActionModal'
 export function Money({
@@ -25,13 +27,12 @@ export function Money({
   moneyState,
   getSavedMoney,
   updateMoney,
+  deleteMoney,
+  getTotal,
+  totalState,
 }) {
   const { money } = fakeDB
   const { loading, savedMoneyList } = moneyState
-
-  const del = () => {
-    console.log('del')
-  }
 
   const {
     textInput,
@@ -55,8 +56,7 @@ export function Money({
   } = useNotifications({
     addFunction: addMoney,
     updateNameFunction: updateMoney,
-    updateCompletedFunction: del,
-    deleteFunction: del,
+    deleteFunction: deleteMoney,
     email: 'igor193@live.com',
   })
 
@@ -64,6 +64,7 @@ export function Money({
     React.useCallback(() => {
       setPressed('Guardar')
       getSavedMoney()
+      getTotal({ id: '1' })
     }, [navigation])
   )
 
@@ -174,7 +175,7 @@ export function Money({
                 marginBottom: 10,
               }}
             >
-              Total: R$: {money.total.savedMoney.toFixed(2)}
+              Total: R$: {totalState.total.savedMoney}
             </Text>
             <ScrollView style={styles.scroll}>
               {loading ? (
@@ -201,18 +202,29 @@ export function Money({
         onChangeText={setSourceName}
         onPressToUpdateName={handleEditTextInput}
       />
+      <CustomAlert
+        text={'Deseja excluir a tarefa:'}
+        taskTitle={selected.title}
+        isModalVisible={isDeleteModal}
+        toggleModal={toggleDeleteModal}
+        actionCallback={handleDelete}
+        id={selected.id}
+      />
     </TemplatePage>
   )
 }
 
 const mapStateToProps = (state) => ({
   moneyState: state.money,
+  totalState: state.total,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   addMoney: (data) => dispatch(addMoneyRequest(data)),
   getSavedMoney: () => dispatch(getSavedMoneyRequest()),
   updateMoney: (data) => dispatch(updateMoneyRequest(data)),
+  deleteMoney: (data) => dispatch(deleteMoneyRequest(data)),
+  getTotal: (data) => dispatch(getTotalRequest(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Money)

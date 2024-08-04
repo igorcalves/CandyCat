@@ -1,12 +1,22 @@
 import { isLoading } from 'expo-font'
 import * as types from '../types'
 
-const initialState = {
+const initMoneyState = {
   savedMoneyList: [],
   loading: false,
 }
 
-export default money = (state = initialState, action) => {
+const initTotalState = {
+  total: {
+    userId: 1,
+    savedMoney: 0,
+    spentMoney: 0,
+    wishList: 0,
+  },
+  loading: false,
+}
+
+export function money(state = initMoneyState, action) {
   switch (action.type) {
     case types.ADD_MONEY_REQUEST:
       return {
@@ -14,7 +24,6 @@ export default money = (state = initialState, action) => {
         loading: true,
       }
     case types.ADD_MONEY_SUCCESS:
-      console.log('action.data', action.data)
       return {
         ...state,
         savedMoneyList: [action.data, ...state.savedMoneyList],
@@ -50,7 +59,6 @@ export default money = (state = initialState, action) => {
         loading: true,
       }
     case types.UPDATE_MONEY_SUCCESS:
-      console.log('action.data', action.data)
       return {
         ...state,
         savedMoneyList: state.savedMoneyList.map((money) => {
@@ -67,6 +75,88 @@ export default money = (state = initialState, action) => {
         loading: false,
       }
     case types.UPDATE_MONEY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      }
+    case types.DELETE_MONEY_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case types.DELETE_MONEY_SUCCESS:
+      return {
+        ...state,
+        savedMoneyList: state.savedMoneyList.filter(
+          (money) => money.id !== action.data
+        ),
+        loading: false,
+      }
+    case types.DELETE_MONEY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      }
+    default:
+      return state
+  }
+}
+
+export function total(state = initTotalState, action) {
+  switch (action.type) {
+    case types.GET_TOTAL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+
+    case types.GET_TOTAL_SUCCESS:
+      return {
+        ...state,
+        total: action.data,
+        loading: false,
+      }
+
+    case types.GET_TOTAL_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      }
+    case types.DEPOSIT_MONEY_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case types.DEPOSIT_MONEY_SUCCESS:
+      return {
+        ...state,
+        total: {
+          ...state.total,
+          savedMoney: state.total.savedMoney + Number(action.data.value),
+        },
+        loading: false,
+      }
+    case types.DEPOSIT_MONEY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      }
+    case types.DEBT_MONEY_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+    case types.DEBT_MONEY_SUCCESS:
+      return {
+        ...state,
+        total: {
+          ...state.total,
+          savedMoney: state.total.savedMoney - action.data,
+          wishList: state.total.wishList + action.data,
+        },
+        loading: false,
+      }
+    case types.DEBT_MONEY_FAILURE:
       return {
         ...state,
         loading: false,

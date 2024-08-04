@@ -8,7 +8,13 @@ import {
   rootUpdateTaskToCompleted,
 } from './tasks/sagas'
 
-import { rootAddMoney, rootGetMoney, rootUpdateMoney } from './money/sagas'
+import {
+  rootAddMoney,
+  rootGetMoney,
+  rootUpdateMoney,
+  rootDeleteMoney,
+  rootGetTotal,
+} from './money/sagas'
 export default function* rootSaga() {
   yield all({
     login: rootLogin(),
@@ -21,5 +27,7 @@ export default function* rootSaga() {
     addMoney: rootAddMoney(),
     getMoney: rootGetMoney(),
     updateMoney: rootUpdateMoney(),
+    deleteMoney: rootDeleteMoney(),
+    getTotal: rootGetTotal(),
   })
 }
