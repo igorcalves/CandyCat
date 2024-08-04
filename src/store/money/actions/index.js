@@ -49,3 +49,28 @@ export function getSavedMoneyFailure(data, callbackError) {
     callbackError,
   }
 }
+
+export function updateMoneyRequest(data, callbackError) {
+  return {
+    type: types.UPDATE_MONEY_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function updateMoneySuccess(data, callback, callbackError) {
+  return {
+    type: types.UPDATE_MONEY_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function updateMoneyFailure(data, callbackError) {
+  return {
+    type: types.UPDATE_MONEY_FAILURE,
+    data,
+    callbackError,
+  }
+}

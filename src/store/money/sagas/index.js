@@ -21,6 +21,8 @@ import {
   addMoneyFailure,
   getSavedMoneySuccess,
   getSavedMoneyFailure,
+  updateMoneySuccess,
+  updateMoneyFailure,
 } from '../actions'
 
 import app from '../../../data/services/firebaseApp'
@@ -62,6 +64,21 @@ const getData = async () => {
   }
 }
 
+const updateMoney = async (data) => {
+  try {
+    const moneyRef = doc(db, 'money', String(data.id))
+
+    await updateDoc(moneyRef, {
+      title: data.title,
+      description: `Alterado por ${data.email}`,
+      date: new Date(),
+    })
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 function* addMoneySaga(action) {
   const { data } = action
   const response = yield call(addMoney, data)
@@ -81,10 +98,24 @@ export function* getMoneySaga() {
   }
 }
 
+export function* updateMoneySaga(action) {
+  const { data } = action
+  const response = yield call(updateMoney, data)
+  if (response) {
+    yield put(updateMoneySuccess(data))
+  } else {
+    yield put(updateMoneyFailure(response))
+  }
+}
+
 export function* rootAddMoney() {
   yield takeLatest(types.ADD_MONEY_REQUEST, addMoneySaga)
 }
 
 export function* rootGetMoney() {
   yield takeLatest(types.GET_SAVED_MONEY_REQUEST, getMoneySaga)
+}
+
+export function* rootUpdateMoney() {
+  yield takeLatest(types.UPDATE_MONEY_REQUEST, updateMoneySaga)
 }

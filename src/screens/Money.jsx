@@ -13,17 +13,24 @@ import styles from '../consts/screensStyles'
 import fakeDB from '../data/db/fakeDB'
 import List from '../components/data/List'
 import { connect } from 'react-redux'
-import { addMoneyRequest, getSavedMoneyRequest } from '../store/money/actions'
-export function Money({ navigation, addMoney, moneyState, getSavedMoney }) {
+import {
+  addMoneyRequest,
+  getSavedMoneyRequest,
+  updateMoneyRequest,
+} from '../store/money/actions'
+import CustomAlert from '../components/modals/ActionModal'
+export function Money({
+  navigation,
+  addMoney,
+  moneyState,
+  getSavedMoney,
+  updateMoney,
+}) {
   const { money } = fakeDB
   const { loading, savedMoneyList } = moneyState
 
   const del = () => {
     console.log('del')
-  }
-
-  updateName = () => {
-    console.log('updateName')
   }
 
   const {
@@ -47,7 +54,7 @@ export function Money({ navigation, addMoney, moneyState, getSavedMoney }) {
     handleDelete,
   } = useNotifications({
     addFunction: addMoney,
-    updateNameFunction: null,
+    updateNameFunction: updateMoney,
     updateCompletedFunction: del,
     deleteFunction: del,
     email: 'igor193@live.com',
@@ -183,6 +190,17 @@ export function Money({ navigation, addMoney, moneyState, getSavedMoney }) {
           </View>
         </View>
       </Body>
+      <CustomAlert
+        text={'Deseja editar a tarefa:'}
+        taskTitle={selected.title}
+        isModalVisible={isEditModal}
+        toggleModal={toggleEditModal}
+        id={selected.id}
+        updateTask={true}
+        value={sourceName}
+        onChangeText={setSourceName}
+        onPressToUpdateName={handleEditTextInput}
+      />
     </TemplatePage>
   )
 }
@@ -194,6 +212,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addMoney: (data) => dispatch(addMoneyRequest(data)),
   getSavedMoney: () => dispatch(getSavedMoneyRequest()),
+  updateMoney: (data) => dispatch(updateMoneyRequest(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Money)
