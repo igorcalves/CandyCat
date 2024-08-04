@@ -13,6 +13,12 @@ export default fakeDB = {
     },
   ],
   money: {
+    total: {
+      userId: 1,
+      savedMoney: 1000,
+      spentMoney: 0,
+      wishList: 0,
+    },
     savedMoney: [
       {
         id: 1,
@@ -42,9 +48,10 @@ export default fakeDB = {
 }
 
 for (let i = 2; i <= 6; i++) {
+  const value = (10.23 * i).toFixed(2)
   fakeDB.money.savedMoney.push({
     id: i,
-    title: (10.23 * i).toFixed(2),
+    title: value,
     date: new Date(),
     description: `Criado por ${i}`,
   })

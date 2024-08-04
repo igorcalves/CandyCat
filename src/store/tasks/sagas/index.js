@@ -1,7 +1,7 @@
 import app from '../../../data/services/firebaseApp'
 import { all, call, put, takeLatest } from 'redux-saga/effects'
 import * as types from '../types'
-
+import { sortByDate } from '../../../utils/date/convert'
 import {
   getTasksSuccess,
   getTasksFailure,
@@ -30,7 +30,6 @@ import {
 
 const db = getFirestore(app)
 const getData = async (completedStatus = false) => {
-  console.log(completedStatus)
   try {
     const db = getFirestore()
     const tasksCollection = collection(db, 'tasks')
@@ -48,12 +47,6 @@ const getData = async (completedStatus = false) => {
   }
 }
 
-const sortByDate = (taskLisk) => {
-  return taskLisk.sort((a, b) => {
-    return b.date - a.date
-  })
-}
-
 const addTask = async (data) => {
   const timestamp = Math.floor(Date.now() / 1000)
   const newTask = {
@@ -68,7 +61,7 @@ const addTask = async (data) => {
     const tasksCollection = collection(db, 'tasks')
     const taskRef = doc(tasksCollection, String(newTask.id))
     await setDoc(taskRef, newTask)
-    return true
+    return newTask
   } catch (e) {
     return false
   }
@@ -127,7 +120,6 @@ function* addTaskSaga({ data, callback, callbackError }) {
   const response = yield call(addTask, data, callback, callbackError)
   if (response) {
     yield put(createTaskSuccess(response))
-    yield put(getTasksRequest())
     callback && callback('Tarefa')
   } else {
     yield put(createTasksFailure())
@@ -138,8 +130,7 @@ function* addTaskSaga({ data, callback, callbackError }) {
 function* deleteTaskSaga({ data, callback, callbackError }) {
   const response = yield call(deleteTask, data, callback, callbackError)
   if (response) {
-    yield put(deleteTaskSuccess(response))
-    yield put(getTasksRequest())
+    yield put(deleteTaskSuccess(data))
     callback && callback('Tarefa')
   } else {
     yield put(deleteTaskFailure())
@@ -150,8 +141,9 @@ function* deleteTaskSaga({ data, callback, callbackError }) {
 function* updateTaskNameSaga({ data, callback, callbackError }) {
   const response = yield call(updateTaskName, data, callback, callbackError)
   if (response) {
-    yield put(updateTaskNameSuccess(response))
-    yield put(getTasksRequest())
+    yield put(
+      updateTaskNameSuccess((data = { id: data.id, title: data.title }))
+    )
     callback && callback('Tarefa')
   } else {
     yield put(updateTaskNameFailure())
@@ -167,8 +159,7 @@ function* updateTaskToCompletedSaga({ data, callback, callbackError }) {
     callbackError
   )
   if (response) {
-    yield put(updateTaskToCompletedSuccess(response))
-    yield put(getTasksRequest())
+    yield put(updateTaskToCompletedSuccess(data))
     callback && callback('Tarefa')
   } else {
     yield put(updateTaskToCompletedFailure())

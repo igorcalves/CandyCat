@@ -1,16 +1,10 @@
-import React from 'react'
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  ScrollView,
-} from 'react-native'
+import React, { useEffect } from 'react'
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native'
 import TextInputWithButton from '../components/inputs/TextInputWithButton'
-import AtualizationCard from '../components/card/AtualizationCard'
 import TemplatePage from './TeamplatePage'
 import Header from '../components/pageComponents/Header'
 import TextName from '../components/pageComponents/TextName'
+import { useFocusEffect } from '@react-navigation/native'
 import Body from '../components/pageComponents/Body'
 import PrimaryButton from '../components/buttons/PrimaryButton'
 import colors from '../consts/colors'
@@ -18,15 +12,11 @@ import useNotifications from '../data/hooks/useNotifications'
 import styles from '../consts/screensStyles'
 import fakeDB from '../data/db/fakeDB'
 import List from '../components/data/List'
-export default function Money() {
+import { connect } from 'react-redux'
+import { addMoneyRequest, getSavedMoneyRequest } from '../store/money/actions'
+export function Money({ navigation, addMoney, moneyState, getSavedMoney }) {
   const { money } = fakeDB
-
-  const total = money.savedMoney
-    .reduce((acc, curr) => acc + Number(curr.title), 0)
-    .toFixed(2)
-  const add = () => {
-    console.log('add')
-  }
+  const { loading, savedMoneyList } = moneyState
 
   const del = () => {
     console.log('del')
@@ -56,11 +46,62 @@ export default function Money() {
     handleEditTextInput,
     handleDelete,
   } = useNotifications({
-    addFunction: add,
+    addFunction: addMoney,
     updateNameFunction: null,
     updateCompletedFunction: del,
     deleteFunction: del,
+    email: 'igor193@live.com',
   })
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setPressed('Guardar')
+      getSavedMoney()
+    }, [navigation])
+  )
+
+  const switchList = () => {
+    switch (pressed) {
+      case 'Guardar':
+        return (
+          <List
+            sources={savedMoneyList}
+            isMoney={true}
+            iconName={'Money'}
+            disable={true}
+            toggleDeleteModal={toggleDeleteModal}
+            toggleEditModal={toggleEditModal}
+            selectedSource={setSelected}
+          />
+        )
+      case 'Desejos':
+        return (
+          <List
+            sources={money.wishList}
+            isMoney={true}
+            iconName={'Money'}
+            total={money.total.savedMoney}
+            wish={true}
+            onPressed={toggleCompleteModal}
+            toggleDeleteModal={toggleDeleteModal}
+            toggleEditModal={toggleEditModal}
+            selectedSource={setSelected}
+          />
+        )
+      default:
+        return (
+          <List
+            sources={money.spentMoney}
+            isMoney={true}
+            iconName={'Money'}
+            onPressed={toggleCompleteModal}
+            toggleDeleteModal={toggleDeleteModal}
+            toggleEditModal={toggleEditModal}
+            selectedSource={setSelected}
+          />
+        )
+    }
+  }
   return (
     <TemplatePage>
       <Header>
@@ -75,7 +116,7 @@ export default function Money() {
             inputStyle={styles.input}
             value={textInput}
             onChangeText={setTextInput}
-            onPress={() => console.log('add')}
+            onPress={() => handleTextInput()}
           />
           <View style={[styles.buttons, { paddingHorizontal: 20 }]}>
             <PrimaryButton
@@ -83,6 +124,7 @@ export default function Money() {
               pressed={pressed === 'Guardar'}
               onPress={() => {
                 setPressed('Guardar')
+                getSavedMoney()
               }}
               primaryButtonStyle={{
                 width: 100,
@@ -125,20 +167,18 @@ export default function Money() {
                 marginBottom: 10,
               }}
             >
-              Total: R$: {total}
+              Total: R$: {money.total.savedMoney.toFixed(2)}
             </Text>
             <ScrollView style={styles.scroll}>
-              <List
-                sources={money.wishList}
-                isMoney={true}
-                iconName={'Money'}
-                total={total}
-                wish={true}
-                onPressed={toggleCompleteModal}
-                toggleDeleteModal={toggleDeleteModal}
-                toggleEditModal={toggleEditModal}
-                selectedSource={setSelected}
-              />
+              {loading ? (
+                <ActivityIndicator
+                  color={colors.strongBlue}
+                  style={styles.activityIndicator}
+                  size={70}
+                />
+              ) : (
+                switchList()
+              )}
             </ScrollView>
           </View>
         </View>
@@ -146,3 +186,14 @@ export default function Money() {
     </TemplatePage>
   )
 }
+
+const mapStateToProps = (state) => ({
+  moneyState: state.money,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  addMoney: (data) => dispatch(addMoneyRequest(data)),
+  getSavedMoney: () => dispatch(getSavedMoneyRequest()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Money)

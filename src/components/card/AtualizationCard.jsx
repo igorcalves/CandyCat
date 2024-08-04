@@ -24,10 +24,10 @@ export default function AtualizationCard({
     return (
       <View style={styles.progressBarContainer}>
         <View style={[styles.progressBar, { width: `${progress}%` }]}></View>
-        {progress === 100 ? (
+        {progress === 100 || missingValue === 0 ? (
           <Text style={styles.completeText}>Completo</Text>
         ) : (
-          <Text style={styles.completeText}>{`R$: ${Math.abs(
+          <Text style={styles.completeText}>{`Falta R$: ${Math.abs(
             +missingValue.toFixed(2)
           )}`}</Text>
         )}

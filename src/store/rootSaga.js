@@ -1,15 +1,14 @@
-import { all, call } from 'redux-saga/effects';
-import { rootLogin, rootLogout } from './user/sagas';
-import { 
+import { all, call } from 'redux-saga/effects'
+import { rootLogin, rootLogout } from './user/sagas'
+import {
   rootGetTasks,
   rootAddTask,
   rootDeleteTask,
   rootUpdateTaskName,
-  rootUpdateTaskToCompleted
+  rootUpdateTaskToCompleted,
+} from './tasks/sagas'
 
-  } from './tasks/sagas';
-import { get } from 'firebase/database';
-
+import { rootAddMoney, rootGetMoney } from './money/sagas'
 export default function* rootSaga() {
   yield all({
     login: rootLogin(),
@@ -18,7 +17,8 @@ export default function* rootSaga() {
     addTask: rootAddTask(),
     deleteTask: rootDeleteTask(),
     updateTaskName: rootUpdateTaskName(),
-    updateTaskToCompleted: rootUpdateTaskToCompleted()
-    }
-  );
+    updateTaskToCompleted: rootUpdateTaskToCompleted(),
+    addMoney: rootAddMoney(),
+    getMoney: rootGetMoney(),
+  })
 }
