@@ -34,6 +34,14 @@ export function Money({
   const { money } = fakeDB
   const { loading, savedMoneyList } = moneyState
 
+  const del = () => {
+    console.log('del')
+  }
+
+  updateName = () => {
+    console.log('updateName')
+  }
+
   const {
     textInput,
     setTextInput,
@@ -64,7 +72,6 @@ export function Money({
     React.useCallback(() => {
       setPressed('Guardar')
       getSavedMoney()
-      getTotal({ id: '1' })
     }, [navigation])
   )
 
@@ -133,6 +140,7 @@ export function Money({
               onPress={() => {
                 setPressed('Guardar')
                 getSavedMoney()
+                getTotal({ id: '1' })
               }}
               primaryButtonStyle={{
                 width: 100,
