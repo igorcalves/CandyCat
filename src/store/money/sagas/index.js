@@ -66,7 +66,6 @@ export function* deleteMoneySaga(action) {
 export function* getTotalSaga(action) {
   const { data } = action
   const response = yield call(services.getTotal, data)
-  console.log('chamei ', response)
   if (response) {
     yield put(getTotalSuccess(response))
   } else {

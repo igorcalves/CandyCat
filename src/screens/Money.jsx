@@ -72,6 +72,7 @@ export function Money({
     React.useCallback(() => {
       setPressed('Guardar')
       getSavedMoney()
+      getTotal({ id: '1' })
     }, [navigation])
   )
 
