@@ -13,6 +13,8 @@ import {
   rootGetMoney,
   rootDeleteMoney,
   rootGetTotal,
+  rootAddToWishList,
+  rootGetWishList,
 } from './money/sagas'
 export default function* rootSaga() {
   yield all({
@@ -27,5 +29,7 @@ export default function* rootSaga() {
     getMoney: rootGetMoney(),
     deleteMoney: rootDeleteMoney(),
     getTotal: rootGetTotal(),
+    addToWishList: rootAddToWishList(),
+    getWishList: rootGetWishList(),
   })
 }

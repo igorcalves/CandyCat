@@ -50,31 +50,6 @@ export function getSavedMoneyFailure(data, callbackError) {
   }
 }
 
-export function updateMoneyRequest(data, callbackError) {
-  return {
-    type: types.UPDATE_MONEY_REQUEST,
-    data,
-    callbackError,
-  }
-}
-
-export function updateMoneySuccess(data, callback, callbackError) {
-  return {
-    type: types.UPDATE_MONEY_SUCCESS,
-    data,
-    callback,
-    callbackError,
-  }
-}
-
-export function updateMoneyFailure(data, callbackError) {
-  return {
-    type: types.UPDATE_MONEY_FAILURE,
-    data,
-    callbackError,
-  }
-}
-
 export function deleteMoneyRequest(data, callbackError) {
   return {
     type: types.DELETE_MONEY_REQUEST,
@@ -134,7 +109,6 @@ export function depositMoneyRequest(data, callbackError) {
 }
 
 export function depositMoneySuccess(data, callback, callbackError) {
-  console.log('data', data)
   return {
     type: types.DEPOSIT_MONEY_SUCCESS,
     data,
@@ -171,6 +145,56 @@ export function debtMoneySuccess(data, callback, callbackError) {
 export function debtMoneyFailure(data, callbackError) {
   return {
     type: types.DEBT_MONEY_FAILURE,
+    data,
+    callbackError,
+  }
+}
+
+export function addToWishlistRequest(data, callbackError) {
+  return {
+    type: types.ADD_TO_WISHLIST_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function addToWishlistSuccess(data, callback, callbackError) {
+  return {
+    type: types.ADD_TO_WISHLIST_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function addToWishlistFailure(data, callbackError) {
+  return {
+    type: types.ADD_TO_WISHLIST_FAILURE,
+    data,
+    callbackError,
+  }
+}
+
+export function getWishlistRequest(data, callbackError) {
+  return {
+    type: types.GET_WISHLIST_REQUEST,
+    data,
+    callbackError,
+  }
+}
+
+export function getWishlistSuccess(data, callback, callbackError) {
+  return {
+    type: types.GET_WISHLIST_SUCCESS,
+    data,
+    callback,
+    callbackError,
+  }
+}
+
+export function getWishlistFailure(data, callbackError) {
+  return {
+    type: types.GET_WISHLIST_FAILURE,
     data,
     callbackError,
   }

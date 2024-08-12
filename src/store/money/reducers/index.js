@@ -15,6 +15,11 @@ const initTotalState = {
   loading: false,
 }
 
+const initWishListState = {
+  wishList: [],
+  loading: false,
+}
+
 export function money(state = initMoneyState, action) {
   switch (action.type) {
     case types.ADD_MONEY_REQUEST:
@@ -146,7 +151,6 @@ export function total(state = initTotalState, action) {
         loading: true,
       }
     case types.DEBT_MONEY_SUCCESS:
-      console.log('action.data', action.data)
       return {
         ...state,
         total: {
@@ -160,6 +164,51 @@ export function total(state = initTotalState, action) {
         ...state,
         loading: false,
       }
+    default:
+      return state
+  }
+}
+
+export function wishList(state = initWishListState, action) {
+  switch (action.type) {
+    case types.ADD_TO_WISHLIST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+
+    case types.ADD_TO_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        wishList: [action.data, ...state.wishList],
+        loading: false,
+      }
+
+    case types.ADD_TO_WISHLIST_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      }
+
+    case types.GET_WISHLIST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      }
+
+    case types.GET_WISHLIST_SUCCESS:
+      return {
+        ...state,
+        wishList: action.data,
+        loading: false,
+      }
+
+    case types.GET_WISHLIST_FAILURE:
+      return {
+        ...state,
+        loading: false,
+      }
+
     default:
       return state
   }

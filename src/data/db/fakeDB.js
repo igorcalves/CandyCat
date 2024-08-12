@@ -15,26 +15,12 @@ export default fakeDB = {
   money: {
     total: {
       userId: 1,
-      savedMoney: 1000,
+      savedMoney: 0,
       spentMoney: 0,
       wishList: 0,
     },
-    savedMoney: [
-      {
-        id: 1,
-        title: 100,
-        date: new Date(),
-        description: 'Salário',
-      },
-    ],
-    spentMoney: [
-      {
-        id: 1,
-        title: 100,
-        date: new Date(),
-        description: 'Compras',
-      },
-    ],
+    savedMoney: [],
+    spentMoney: [],
     wishList: [
       {
         id: 1,
@@ -47,14 +33,15 @@ export default fakeDB = {
   },
 }
 
-for (let i = 2; i <= 6; i++) {
-  const value = (10.23 * i).toFixed(2)
+for (let i = 1; i <= 10; i++) {
+  const value = (i * 100).toFixed(2)
   fakeDB.money.savedMoney.push({
     id: i,
     title: value,
     date: new Date(),
     description: `Criado por ${i}`,
   })
+  fakeDB.money.total.savedMoney += parseFloat(value)
 }
 
 for (let i = 2; i <= 6; i++) {
