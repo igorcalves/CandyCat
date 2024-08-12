@@ -10,6 +10,7 @@ export default function AtualizationCard({
   onPressed,
   editable = true,
   onPressEdit,
+  hasEditButton = true,
   onPressDelete,
   toggle,
   disabled = false,
@@ -48,9 +49,15 @@ export default function AtualizationCard({
   }
   const edit = () => (
     <View style={styles.edit}>
-      <TouchableOpacity onPress={onPressEdit}>
-        <MaterialIcons name="edit" size={24} color={colors.white} />
-      </TouchableOpacity>
+      {hasEditButton ? (
+        <TouchableOpacity onPress={onPressEdit}>
+          <MaterialIcons name="edit" size={24} color={colors.white} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity disabled={true}>
+          <MaterialIcons name="edit" size={24} color={colors.gray} />
+        </TouchableOpacity>
+      )}
       <TouchableOpacity onPress={onPressDelete}>
         <MaterialIcons name="delete" size={24} color={colors.white} />
       </TouchableOpacity>

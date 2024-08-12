@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { checkInput } from '../../utils/input/inputValitions'
+import { checkInput, checkNumberInput } from '../../utils/input/inputValitions'
 import useToast from './useToast'
 
 export default function useNotifications({
@@ -8,9 +8,12 @@ export default function useNotifications({
   updateCompletedFunction,
   updateNameFunction,
   email,
+  numberInput = false,
 }) {
   const { addSuccess, deleteSuccess, editSuccess, completeSuccess, error } =
     useToast()
+
+  const validateInput = numberInput ? checkNumberInput : checkInput
 
   const [textInput, setTextInput] = useState('')
   const [sourceName, setSourceName] = useState('')
@@ -35,7 +38,7 @@ export default function useNotifications({
   const getFirst = (email) => email.split('@')
 
   const handleTextInput = () => {
-    if (checkInput(textInput, addSuccess, selected.title)) {
+    if (validateInput(textInput, addSuccess, selected.title)) {
       addFunction(
         { title: textInput, email: getFirst(email)[0] },
         addSuccess,
@@ -46,9 +49,14 @@ export default function useNotifications({
   }
 
   const handleEditTextInput = () => {
-    if (checkInput(sourceName, editSuccess, selected.title)) {
+    if (validateInput(sourceName, editSuccess, selected.title)) {
       updateNameFunction(
-        { title: sourceName, id: selected.id, email: getFirst(email)[0] },
+        {
+          title: sourceName,
+          id: selected.id,
+          email: getFirst(email)[0],
+          oldValue: selected.title,
+        },
         editSuccess,
         error
       )
@@ -58,7 +66,11 @@ export default function useNotifications({
   }
 
   const handleDelete = () => {
-    deleteFunction(selected.id, deleteSuccess, error)
+    deleteFunction(
+      { id: selected.id, title: selected.title },
+      deleteSuccess,
+      error
+    )
     toggleDeleteModal()
   }
 

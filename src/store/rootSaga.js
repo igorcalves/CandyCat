@@ -11,7 +11,6 @@ import {
 import {
   rootAddMoney,
   rootGetMoney,
-  rootUpdateMoney,
   rootDeleteMoney,
   rootGetTotal,
 } from './money/sagas'
@@ -26,7 +25,6 @@ export default function* rootSaga() {
     updateTaskToCompleted: rootUpdateTaskToCompleted(),
     addMoney: rootAddMoney(),
     getMoney: rootGetMoney(),
-    updateMoney: rootUpdateMoney(),
     deleteMoney: rootDeleteMoney(),
     getTotal: rootGetTotal(),
   })

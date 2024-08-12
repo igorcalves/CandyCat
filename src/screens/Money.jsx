@@ -16,7 +16,6 @@ import { connect } from 'react-redux'
 import {
   addMoneyRequest,
   getSavedMoneyRequest,
-  updateMoneyRequest,
   deleteMoneyRequest,
   getTotalRequest,
 } from '../store/money/actions'
@@ -26,7 +25,6 @@ export function Money({
   addMoney,
   moneyState,
   getSavedMoney,
-  updateMoney,
   deleteMoney,
   getTotal,
   totalState,
@@ -47,25 +45,19 @@ export function Money({
     setTextInput,
     pressed,
     setPressed,
-    toggleCompleteModal,
-    toggleEditModal,
     toggleDeleteModal,
-    isCompleteModal,
-    isEditModal,
     isDeleteModal,
     selected,
     setSelected,
-    handleComplete,
     sourceName,
     setSourceName,
     handleTextInput,
-    handleEditTextInput,
     handleDelete,
   } = useNotifications({
     addFunction: addMoney,
-    updateNameFunction: updateMoney,
     deleteFunction: deleteMoney,
     email: 'igor193@live.com',
+    numberInput: true,
   })
 
   useFocusEffect(
@@ -85,8 +77,8 @@ export function Money({
             isMoney={true}
             iconName={'Money'}
             disable={true}
+            hasEditButton={false}
             toggleDeleteModal={toggleDeleteModal}
-            toggleEditModal={toggleEditModal}
             selectedSource={setSelected}
           />
         )
@@ -98,9 +90,7 @@ export function Money({
             iconName={'Money'}
             total={money.total.savedMoney}
             wish={true}
-            onPressed={toggleCompleteModal}
             toggleDeleteModal={toggleDeleteModal}
-            toggleEditModal={toggleEditModal}
             selectedSource={setSelected}
           />
         )
@@ -110,9 +100,7 @@ export function Money({
             sources={money.spentMoney}
             isMoney={true}
             iconName={'Money'}
-            onPressed={toggleCompleteModal}
             toggleDeleteModal={toggleDeleteModal}
-            toggleEditModal={toggleEditModal}
             selectedSource={setSelected}
           />
         )
@@ -184,7 +172,8 @@ export function Money({
                 marginBottom: 10,
               }}
             >
-              Total: R$: {totalState.total.savedMoney}
+              Total: R$:{' '}
+              {moneyState.loading ? '----' : totalState.total.savedMoney}
             </Text>
             <ScrollView style={styles.scroll}>
               {loading ? (
@@ -200,17 +189,7 @@ export function Money({
           </View>
         </View>
       </Body>
-      <CustomAlert
-        text={'Deseja editar a tarefa:'}
-        taskTitle={selected.title}
-        isModalVisible={isEditModal}
-        toggleModal={toggleEditModal}
-        id={selected.id}
-        updateTask={true}
-        value={sourceName}
-        onChangeText={setSourceName}
-        onPressToUpdateName={handleEditTextInput}
-      />
+
       <CustomAlert
         text={'Deseja excluir a tarefa:'}
         taskTitle={selected.title}
@@ -231,7 +210,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addMoney: (data) => dispatch(addMoneyRequest(data)),
   getSavedMoney: () => dispatch(getSavedMoneyRequest()),
-  updateMoney: (data) => dispatch(updateMoneyRequest(data)),
   deleteMoney: (data) => dispatch(deleteMoneyRequest(data)),
   getTotal: (data) => dispatch(getTotalRequest(data)),
 })

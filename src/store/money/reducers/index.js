@@ -146,12 +146,12 @@ export function total(state = initTotalState, action) {
         loading: true,
       }
     case types.DEBT_MONEY_SUCCESS:
+      console.log('action.data', action.data)
       return {
         ...state,
         total: {
           ...state.total,
-          savedMoney: state.total.savedMoney - action.data,
-          wishList: state.total.wishList + action.data,
+          savedMoney: state.total.savedMoney - Number(action.data.value),
         },
         loading: false,
       }

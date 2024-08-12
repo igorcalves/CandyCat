@@ -8,6 +8,7 @@ export default function List({
   progressValue,
   disable = false,
   editable = true,
+  hasEditButton = true,
   selectedSource,
   isMoney = false,
   iconName,
@@ -34,6 +35,7 @@ export default function List({
         }}
         disabled={disable}
         editable={editable}
+        hasEditButton={hasEditButton}
         onPressEdit={() => {
           selectedSource(source)
           toggleEditModal()
