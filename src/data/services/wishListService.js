@@ -19,7 +19,6 @@ const db = getFirestore(app)
 const dbName = 'wishList'
 
 export const addToWishList = async (data) => {
-  console.log(data)
   const timestamp = Math.floor(Date.now() / 1000)
   const newWish = {
     id: timestamp,
@@ -50,6 +49,16 @@ export const getData = async () => {
     return sortByDate(WishListSavedList)
   } catch (error) {
     console.error('Error fetching WishList: ', error)
+    return false
+  }
+}
+
+export const deleteWish = async (data) => {
+  try {
+    const wishRef = doc(db, dbName, String(data.id))
+    await deleteDoc(wishRef)
+    return true
+  } catch (error) {
     return false
   }
 }
