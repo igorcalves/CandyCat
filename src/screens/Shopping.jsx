@@ -9,14 +9,14 @@ import {
 import TextInputWithButton from '../components/inputs/TextInputWithButton'
 import AtualizationCard from '../components/card/AtualizationCard'
 import TemplatePage from './TeamplatePage'
+import Body from '../components/pageComponents/Body'
 import Header from '../components/pageComponents/Header'
 import TextName from '../components/pageComponents/TextName'
-import Body from '../components/pageComponents/Body'
 export default function Shopping() {
   return (
     <TemplatePage>
       <Header>
-        <TextName name="Compras" />
+        <TextName name={'Lista de compras'} />
       </Header>
       <Body>
         <View style={styles.container}>

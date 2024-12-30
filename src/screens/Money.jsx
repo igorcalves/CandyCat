@@ -131,7 +131,7 @@ export function Money({
   return (
     <TemplatePage>
       <Header>
-        <TextName name="Dinheiro" />
+        <TextName name={'Dinheiro'} />
       </Header>
       <Body>
         <View style={styles.container}>

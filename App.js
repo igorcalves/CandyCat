@@ -1,40 +1,46 @@
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import colors from './src/consts/colors';
-import { StyleSheet } from 'react-native';
-import Routers from './src/screens/Routers';
-import { Provider } from 'react-redux';
-import store from './src/store';
-import Toast from 'react-native-toast-message';
-import toastConfig from './src/utils/toast/customToast';
+import React, { useEffect } from 'react'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { StyleSheet } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { Provider } from 'react-redux'
+import { GestureHandlerRootView } from 'react-native-gesture-handler' // Import GestureHandlerRootView
+import store from './src/store'
+import Toast from 'react-native-toast-message'
+import toastConfig from './src/utils/toast/customToast'
+import BottomTab from './src/screens/BottomTab'
+import colors from './src/consts/colors'
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function App() {
   const [loaded, error] = useFonts({
     'Inter-ExtraBold': require('./assets/fonts/static/Inter-ExtraBold.ttf'),
-  });
+  })
 
   useEffect(() => {
     if (loaded || error) {
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync()
     }
-  }, [loaded, error]);
+  }, [loaded, error])
 
   if (!loaded && !error) {
-    return null;
+    return null
   }
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.container}>
-        <Routers />
-        <Toast config={toastConfig}/>
-      </SafeAreaView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <SafeAreaView style={styles.container}>
+            <BottomTab />
+            <Toast config={toastConfig} />
+          </SafeAreaView>
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </Provider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -42,4 +48,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-});
+})

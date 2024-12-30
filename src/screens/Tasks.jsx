@@ -67,7 +67,7 @@ const Tasks = ({
   return (
     <TemplatePage>
       <Header>
-        <TextName name="Tarefas" />
+        <TextName name={'Tarefas'} />
       </Header>
       <Body>
         <View style={styles.container}>

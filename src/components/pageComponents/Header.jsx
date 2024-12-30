@@ -8,19 +8,7 @@ export default function Header({ children }) {
 
   return (
     <>
-      <View style={styles.row}>
-        {children}
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Exit')
-          }}
-        >
-          <Image
-            source={require('../../../assets/images/pepeta.png')}
-            style={styles.profile}
-          />
-        </TouchableOpacity>
-      </View>
+      <View style={styles.row}>{children}</View>
     </>
   )
 }
@@ -37,8 +25,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   profile: {
-    width: 100,
-    height: 100,
+    width: 40,
+    height: 40,
     borderRadius: 50,
     backgroundColor: colors.white,
   },
