@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import colors from '../../consts/colors'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { convertDate, getOnlyHour } from '../../utils/date/convert'
-
+import Icon from 'react-native-vector-icons/MaterialIcons'
 export default function AtualizationCard({
   title,
   description,
@@ -12,7 +12,6 @@ export default function AtualizationCard({
   onPressEdit,
   hasEditButton = true,
   onPressDelete,
-  toggle,
   disabled = false,
   iconName,
   wish = false,
@@ -51,47 +50,62 @@ export default function AtualizationCard({
     <View style={styles.edit}>
       {hasEditButton ? (
         <TouchableOpacity onPress={onPressEdit}>
-          <MaterialIcons name="edit" size={24} color={colors.white} />
+          <MaterialIcons name="edit" size={24} color={colors.accent} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity disabled={true}>
-          <MaterialIcons name="edit" size={24} color={colors.gray} />
+          <MaterialIcons name="edit" size={24} color={colors.accent} />
         </TouchableOpacity>
       )}
       <TouchableOpacity onPress={onPressDelete}>
-        <MaterialIcons name="delete" size={24} color={colors.white} />
+        <MaterialIcons name="delete" size={24} color={colors.accent} />
       </TouchableOpacity>
     </View>
   )
 
+  const truncateTitle = (title) => {
+    if (!title) return ''
+    if (title.length > 20) {
+      return title.substring(0, 20) + '...'
+    }
+    return title
+  }
+
   return (
-    <TouchableOpacity onPress={onPressed} disabled={disabled}>
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: toggle ? colors.strongBlue : colors.stronbBlueV,
-          },
-        ]}
-      >
-        <View style={styles.iconBackground}>
-          <Image source={switchIcon()} style={styles.icon} />
-        </View>
-        <View style={{ flex: 8, marginLeft: 19 }}>
-          <Text style={styles.title}>{title}</Text>
-          <Text
-            style={[styles.subTitle, { fontSize: 13 }]}
-          >{`${description} criado as ${getOnlyHour(date)}`}</Text>
-          <View>{wish && <ProgressBar progress={progressValue} />}</View>
-        </View>
-        <View style={{ flex: 3 }}>
-          <Text style={[styles.subTitle, { fontSize: 12 }]}>
-            {convertDate(date)}
-          </Text>
-          {editable && edit()}
-        </View>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.white,
+        },
+      ]}
+    >
+      <View style={styles.iconBackground}>
+        <Image source={switchIcon()} style={styles.icon} />
       </View>
-    </TouchableOpacity>
+      <View style={{ flex: 8, marginLeft: 19 }}>
+        <Text style={styles.title}>{truncateTitle(title)}</Text>
+        <Text
+          style={[styles.subTitle, { fontSize: 13 }]}
+        >{`criado as ${getOnlyHour(date)}`}</Text>
+        <View>{wish && <ProgressBar progress={progressValue} />}</View>
+      </View>
+      <View
+        style={{
+          flex: 3,
+          alignItems: 'flex-end',
+          marginTop: 10,
+        }}
+      >
+        <Icon
+          name="info"
+          size={24}
+          color={colors.accent}
+          onPress={onPressed}
+          disabled={disabled}
+        />
+      </View>
+    </View>
   )
 }
 
@@ -109,10 +123,10 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderRadius: 15,
-    backgroundColor: colors.background,
+    backgroundColor: 'transparent',
   },
   title: {
     textAlign: 'left',
@@ -124,7 +138,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 16,
     fontFamily: 'Inter-ExtraBold',
-    color: colors.background,
+    color: colors.black,
   },
   edit: {
     flexDirection: 'row',
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 20,
     width: '90%',
-    backgroundColor: colors.background,
+    backgroundColor: colors.accent,
     borderRadius: 10,
   },
   progressBar: {

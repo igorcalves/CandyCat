@@ -5,7 +5,7 @@ import Exit from './Exit'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './Home'
 import colors from '../consts/colors'
-import { Image } from 'react-native'
+import { Image, Pressable } from 'react-native'
 
 export default function BottomTab() {
   const Tab = createBottomTabNavigator()
@@ -13,9 +13,10 @@ export default function BottomTab() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: colors.strongBlue,
-        tabBarInactiveTintColor: colors.gray,
-        tabBarStyle: { backgroundColor: colors.background },
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.black,
+        tabBarStyle: { backgroundColor: colors.secondary },
+        tabBarItemStyle: { paddingVertical: 5 },
       }}
     >
       <Tab.Screen
@@ -27,6 +28,17 @@ export default function BottomTab() {
             <Image
               source={require('../../assets/icons/Home.png')}
               style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+          tabBarLabel: () => null,
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              android_ripple={{ color: colors.lightGray }}
+              style={({ pressed }) => [
+                { opacity: pressed ? 0.5 : 1 },
+                props.style,
+              ]}
             />
           ),
         }}
@@ -42,6 +54,17 @@ export default function BottomTab() {
               style={{ width: size, height: size, tintColor: color }}
             />
           ),
+          tabBarLabel: () => null,
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              android_ripple={{ color: colors.lightGray }}
+              style={({ pressed }) => [
+                { opacity: pressed ? 0.5 : 1 },
+                props.style,
+              ]}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -53,6 +76,17 @@ export default function BottomTab() {
             <Image
               source={require('../../assets/icons/Money.png')}
               style={{ width: size, height: size, tintColor: color }}
+            />
+          ),
+          tabBarLabel: () => null,
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              android_ripple={{ color: colors.lightGray }}
+              style={({ pressed }) => [
+                { opacity: pressed ? 0.5 : 1 },
+                props.style,
+              ]}
             />
           ),
         }}
@@ -68,6 +102,17 @@ export default function BottomTab() {
               style={{ width: size, height: size, tintColor: color }}
             />
           ),
+          tabBarLabel: () => null,
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              android_ripple={{ color: colors.lightGray }}
+              style={({ pressed }) => [
+                { opacity: pressed ? 0.5 : 1 },
+                props.style,
+              ]}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -78,7 +123,22 @@ export default function BottomTab() {
           tabBarIcon: ({ color, size }) => (
             <Image
               source={require('../../assets/images/pepeta.png')}
-              style={{ width: size, height: size, borderRadius: 50 }}
+              style={{
+                width: size,
+                height: size,
+                borderRadius: 50,
+              }}
+            />
+          ),
+          tabBarLabel: () => null,
+          tabBarButton: (props) => (
+            <Pressable
+              {...props}
+              android_ripple={{ color: colors.lightGray }}
+              style={({ pressed }) => [
+                { opacity: pressed ? 0.5 : 1 },
+                props.style,
+              ]}
             />
           ),
         }}

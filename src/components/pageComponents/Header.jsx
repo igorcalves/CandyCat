@@ -8,21 +8,17 @@ export default function Header({ children }) {
 
   return (
     <>
-      <View style={styles.row}>{children}</View>
+      <View style={styles.column}>{children}</View>
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    paddingBottom: 14,
-  },
   column: {
     flexDirection: 'column',
+    justifyContent: 'flex-start',
+    padding: 20,
+    paddingBottom: 14,
   },
   profile: {
     width: 40,

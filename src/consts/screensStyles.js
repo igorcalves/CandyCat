@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native'
+import colors from './colors'
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 50,
     flex: 1,
     alignItems: 'center',
   },
@@ -23,6 +24,19 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     marginTop: 50,
+  },
+
+  addSourceStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: 20,
+  },
+
+  bodyTitleContainer: {
+    alignItems: 'center',
+    marginTop: 20,
   },
 })
 

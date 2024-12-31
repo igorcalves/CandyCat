@@ -1,15 +1,14 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import colors from "../../consts/colors";
-import CardLink from "../card/CardLink";
-import AtualizationCard from "../card/AtualizationCard";
-import DateFilter from "../filter/DateFilter";
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
+import colors from '../../consts/colors'
+import AnimatedBody from '../AnimatedBody'
 
-export default function Body({children}) {
+export default function Body({ children }) {
   return (
-    <View style={styles.container}>
-      {children}
-    </View>
-  );
+    <AnimatedBody>
+      <View style={styles.container}>{children}</View>
+    </AnimatedBody>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -17,6 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
-    backgroundColor: colors.softBlue,
+    backgroundColor: colors.secondary,
   },
-});
+})

@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 import { View, ScrollView, ActivityIndicator } from 'react-native'
-import TextInputWithButton from '../components/inputs/TextInputWithButton'
 import TemplatePage from './TeamplatePage'
 import Header from '../components/pageComponents/Header'
 import TextName from '../components/pageComponents/TextName'
 import Body from '../components/pageComponents/Body'
 import CustomAlert from '../components/modals/ActionModal'
-import PrimaryButton from '../components/buttons/PrimaryButton'
 import colors from '../consts/colors'
 import useNotifications from '../data/hooks/useNotifications'
 import { connect } from 'react-redux'
 import styles from '../consts/screensStyles'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import {
   getTasksRequest,
   createTaskRequest,
@@ -20,6 +19,7 @@ import {
   updateTaskNameRequest,
 } from '../store/tasks/actions'
 import List from '../components/data/List'
+import AddSource from '../components/AddSource'
 
 const Tasks = ({
   getTask,
@@ -31,6 +31,8 @@ const Tasks = ({
   email,
   loading,
 }) => {
+  const [showCompleted, setShowCompleted] = useState(false)
+
   const {
     textInput,
     setTextInput,
@@ -64,47 +66,40 @@ const Tasks = ({
     }, [getTask])
   )
 
+  const handleSetAddSource = () => {
+    setShowCompleted(!showCompleted)
+    if (showCompleted) {
+      setPressed('A fazer')
+      getTask(false)
+    } else {
+      setPressed('Feitas')
+      getTask(true)
+    }
+  }
+
   return (
     <TemplatePage>
       <Header>
         <TextName name={'Tarefas'} />
       </Header>
-      <Body>
-        <View style={styles.container}>
-          <TextInputWithButton
-            placeholder="Adicionar Tarefa"
-            inputStyle={styles.input}
-            value={textInput}
-            onChangeText={setTextInput}
-            onPress={() => handleTextInput()}
-          />
-          <View style={styles.buttons}>
-            <PrimaryButton
-              title={'A fazer'}
-              pressed={pressed === 'A fazer'}
-              onPress={() => {
-                setPressed('A fazer')
-                getTask(false)
-              }}
-              primaryButtonStyle={{
-                width: 100,
-                backgroundColor: colors.background,
-              }}
-            />
-            <PrimaryButton
-              title={'Feitas'}
-              pressed={pressed === 'Feitas'}
-              onPress={() => {
-                setPressed('Feitas')
-                getTask(true)
-              }}
-              primaryButtonStyle={{
-                width: 100,
-                backgroundColor: colors.background,
-              }}
-            />
-          </View>
 
+      <View style={styles.addSourceStyle}>
+        <AddSource
+          title={'Criar'}
+          icon={<Icon name="add" size={25} />}
+          onPress={handleTextInput}
+        />
+        <AddSource
+          title={showCompleted ? 'A fazer' : 'Completas'}
+          icon={<Icon name={showCompleted ? 'list' : 'done'} size={25} />}
+          onPress={handleSetAddSource}
+        />
+      </View>
+      <Body>
+        <View style={styles.bodyTitleContainer}>
+          <TextName name={pressed} />
+        </View>
+        <View style={styles.container}>
           <View style={styles.scroll}>
             <ScrollView
               style={styles.scroll}
