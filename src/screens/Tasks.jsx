@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native'
-import { View, ScrollView, ActivityIndicator } from 'react-native'
+import { View, ScrollView, ActivityIndicator, Image } from 'react-native'
 import TemplatePage from './TeamplatePage'
 import Header from '../components/pageComponents/Header'
 import TextName from '../components/pageComponents/TextName'
@@ -19,6 +19,7 @@ import {
   updateTaskNameRequest,
 } from '../store/tasks/actions'
 import List from '../components/data/List'
+import SideDrawer from './SideDrawer'
 import AddSource from '../components/AddSource'
 
 const Tasks = ({
@@ -66,16 +67,32 @@ const Tasks = ({
     }, [getTask])
   )
 
-  const handleSetAddSource = () => {
-    setShowCompleted(!showCompleted)
-    if (showCompleted) {
-      setPressed('A fazer')
-      getTask(false)
-    } else {
-      setPressed('Feitas')
-      getTask(true)
-    }
-  }
+  const actions = [
+    <AddSource
+      key="create"
+      title="Criar"
+      icon={<Icon name="add" style={styles.buttonIcon} />}
+      onPress={handleTextInput}
+    />,
+    <AddSource
+      key="list"
+      title="A fazer"
+      icon={<Icon name="list" style={styles.buttonIcon} />}
+      onPress={() => {
+        setPressed('A fazer')
+        getTask(false)
+      }}
+    />,
+    <AddSource
+      key="check"
+      title="Feitas"
+      icon={<Icon name="check" style={styles.buttonIcon} />}
+      onPress={() => {
+        setPressed('Feitas')
+        getTask(true)
+      }}
+    />,
+  ]
 
   return (
     <TemplatePage>
@@ -83,18 +100,8 @@ const Tasks = ({
         <TextName name={'Tarefas'} />
       </Header>
 
-      <View style={styles.addSourceStyle}>
-        <AddSource
-          title={'Criar'}
-          icon={<Icon name="add" size={25} />}
-          onPress={handleTextInput}
-        />
-        <AddSource
-          title={showCompleted ? 'A fazer' : 'Completas'}
-          icon={<Icon name={showCompleted ? 'list' : 'done'} size={25} />}
-          onPress={handleSetAddSource}
-        />
-      </View>
+      <SideDrawer items={actions} />
+
       <Body>
         <View style={styles.bodyTitleContainer}>
           <TextName name={pressed} />
@@ -118,6 +125,7 @@ const Tasks = ({
                   toggleDeleteModal={toggleDeleteModal}
                   toggleEditModal={toggleEditModal}
                   selectedSource={setSelected}
+                  iconName={'Tasks'}
                 />
               ) : (
                 <List

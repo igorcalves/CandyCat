@@ -1,8 +1,10 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import colors from '../../consts/colors'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { convertDate, getOnlyHour } from '../../utils/date/convert'
+import { getOnlyHour } from '../../utils/date/convert'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Svg, { Circle, Text as SvgText } from 'react-native-svg'
+
 export default function AtualizationCard({
   title,
   description,
@@ -18,6 +20,55 @@ export default function AtualizationCard({
   missingValue,
   progressValue = 0,
 }) {
+  const CircularProgress = ({ progress, missingValue }) => {
+    const radius = 50
+    const strokeWidth = 12
+    const circumference = 2 * Math.PI * radius
+
+    const clampedProgress = Math.max(0, Math.min(progress, 100))
+    const progressOffset =
+      circumference - (clampedProgress / 100) * circumference
+    const remainingValue = Math.abs(missingValue.toFixed(2))
+
+    return (
+      <View
+        style={[styles.circularProgressContainer, { position: 'absolute' }]}
+      >
+        <Svg height="70" width="70" viewBox="0 0 120 120">
+          <Circle
+            cx={60}
+            cy={60}
+            r={radius}
+            stroke={colors.lightGray}
+            strokeWidth={strokeWidth}
+            fill="none"
+          />
+          <Circle
+            cx={60}
+            cy={60}
+            r={radius}
+            stroke={clampedProgress === 100 ? colors.accent : colors.strongGray}
+            strokeWidth={strokeWidth}
+            fill="none"
+            strokeDasharray={circumference}
+            strokeDashoffset={progressOffset}
+            strokeLinecap="round"
+          />
+          <SvgText
+            x={60}
+            y={65}
+            textAnchor="middle"
+            fontSize={18}
+            fontWeight="bold"
+            fill={colors.black}
+          >
+            {clampedProgress === 100 ? 'Completo' : `R$: ${remainingValue}`}
+          </SvgText>
+        </Svg>
+      </View>
+    )
+  }
+
   const ProgressBar = ({ progress }) => {
     if (!progress) progress = 0
     if (progress > 100) progress = 100
@@ -34,18 +85,20 @@ export default function AtualizationCard({
       </View>
     )
   }
+
   const switchIcon = () => {
     switch (iconName) {
       case 'Tasks':
-        return require('../../../assets/icons/Tasks.png')
+        return <Icon name="list" size={30} color={colors.accent} />
       case 'Check':
-        return require('../../../assets/icons/Check.png')
+        return <Icon name="check" size={30} color={colors.accent} />
       case 'Money':
-        return require('../../../assets/icons/Money.png')
+        return <Icon name="attach-money" size={30} color={colors.accent} />
       default:
-        return require('../../../assets/icons/Tasks.png')
+        return <Icon name="info" size={30} color={colors.accent} />
     }
   }
+
   const edit = () => (
     <View style={styles.edit}>
       {hasEditButton ? (
@@ -72,38 +125,34 @@ export default function AtualizationCard({
   }
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: colors.white,
-        },
-      ]}
-    >
-      <View style={styles.iconBackground}>
-        <Image source={switchIcon()} style={styles.icon} />
-      </View>
+    <View style={[styles.container, { backgroundColor: colors.white }]}>
+      <View style={styles.iconBackground}>{switchIcon()}</View>
       <View style={{ flex: 8, marginLeft: 19 }}>
-        <Text style={styles.title}>{truncateTitle(title)}</Text>
-        <Text
-          style={[styles.subTitle, { fontSize: 13 }]}
-        >{`criado as ${getOnlyHour(date)}`}</Text>
-        <View>{wish && <ProgressBar progress={progressValue} />}</View>
+        <View style={styles.cardContent}>
+          <Text style={styles.title}>{truncateTitle(title)}</Text>
+          {wish && (
+            <CircularProgress
+              progress={progressValue}
+              missingValue={missingValue}
+            />
+          )}
+        </View>
+        <Text style={[styles.subTitle, { fontSize: 13 }]}>
+          {`criado as ${getOnlyHour(date)}`}
+        </Text>
       </View>
-      <View
-        style={{
-          flex: 3,
-          alignItems: 'flex-end',
-          marginTop: 10,
-        }}
-      >
-        <Icon
-          name="info"
-          size={24}
-          color={colors.accent}
-          onPress={onPressed}
-          disabled={disabled}
-        />
+      <View style={{ flex: 3, alignItems: 'flex-end' }}>
+        {disabled ? (
+          <MaterialIcons name="lock" size={24} color={colors.accent} />
+        ) : (
+          <Icon
+            name="info"
+            size={24}
+            color={colors.accent}
+            onPress={onPressed}
+            disabled={disabled}
+          />
+        )}
       </View>
     </View>
   )
@@ -117,49 +166,46 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 15,
   },
-  row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  circularProgressContainer: {
+    position: 'absolute',
+    right: -20,
+    top: -15,
   },
-
-  icon: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'transparent',
+  cardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     textAlign: 'left',
-    fontSize: 16,
-    fontFamily: 'Inter-ExtraBold',
+    fontSize: 18,
+    fontWeight: '500',
     color: 'black',
     flexShrink: 1,
   },
   subTitle: {
-    fontSize: 16,
-    fontFamily: 'Inter-ExtraBold',
-    color: colors.black,
+    fontSize: 13,
+    color: colors.strongGray,
   },
-  edit: {
-    flexDirection: 'row',
-    gap: 10,
+  iconBackground: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    width: 50,
+    height: 50,
+    backgroundColor: colors.lightGray,
   },
   progressBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 10,
-    height: 20,
-    width: '90%',
-    backgroundColor: colors.accent,
-    borderRadius: 10,
   },
   progressBar: {
-    height: '100%',
-    backgroundColor: 'blue',
-    borderRadius: 10,
+    height: 5,
+    backgroundColor: colors.accent,
   },
   completeText: {
-    fontFamily: 'Inter-ExtraBold',
-    color: 'black',
-    position: 'absolute',
-    alignSelf: 'center',
+    marginLeft: 10,
+    fontSize: 14,
+    color: colors.accent,
   },
 })

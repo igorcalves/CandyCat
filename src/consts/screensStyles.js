@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
+  buttonIcon: {
+    fontSize: 23,
+    color: 'white',
+  },
 })
 
 export default styles

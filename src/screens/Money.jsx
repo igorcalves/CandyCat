@@ -25,6 +25,9 @@ import {
   getWishlistRequest,
 } from '../store/money/actions'
 import { SpinnerLoading } from '../components/loading/SpinningLoading'
+import AddSource from '../components/AddSource'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import SideDrawer from './SideDrawer'
 
 export function Money({
   navigation,
@@ -103,6 +106,27 @@ export function Money({
     }, [navigation, getSavedMoney, getTotal])
   )
 
+  const actions = [
+    <AddSource
+      title="Criar"
+      icon={<Icon name="add" style={styles.buttonIcon} />}
+      onPress={handleTextInput}
+    />,
+    <AddSource
+      title="Lista de Desejos"
+      icon={<Icon name="attach-money" style={styles.buttonIcon} />}
+      onPress={() => {
+        setPressed('Desejos')
+        getWishList()
+      }}
+    />,
+    <AddSource
+      title="Gastos"
+      icon={<Icon name="money-off" style={styles.buttonIcon} />}
+      onPress={() => setPressed('Gastos')}
+    />,
+  ]
+
   const showList = () => {
     return loading || wishListState.loading ? (
       <SpinnerLoading />
@@ -134,53 +158,10 @@ export function Money({
         <TextName name={'Dinheiro'} />
       </Header>
       <Body>
+        <View style={styles.bodyTitleContainer}>
+          <TextName name={pressed} />
+        </View>
         <View style={styles.container}>
-          <TextInputWithButton
-            placeholder={`Adicionar ${
-              pressed == 'Guardar' ? 'Dinheiro' : pressed
-            }`}
-            inputStyle={styles.input}
-            value={textInput}
-            onChangeText={setTextInput}
-            onPress={() => handleTextInput()}
-          />
-          <View style={[styles.buttons, { paddingHorizontal: 20 }]}>
-            <PrimaryButton
-              title={'Guardar'}
-              pressed={pressed === 'Guardar'}
-              onPress={() => {
-                setPressed('Guardar')
-                getSavedMoney()
-                getTotal({ id: '1' })
-              }}
-              primaryButtonStyle={{
-                width: 100,
-                backgroundColor: colors.background,
-              }}
-            />
-            <PrimaryButton
-              title={'Desejos'}
-              pressed={pressed === 'Desejos'}
-              onPress={() => {
-                setPressed('Desejos')
-                getWishList()
-              }}
-              primaryButtonStyle={{
-                width: 100,
-                backgroundColor: colors.background,
-              }}
-            />
-            <PrimaryButton
-              title={'Gastos'}
-              pressed={pressed === 'Gastos'}
-              onPress={() => setPressed('Gastos')}
-              primaryButtonStyle={{
-                width: 100,
-                backgroundColor: colors.background,
-              }}
-            />
-          </View>
-
           <View style={styles.scroll}>
             {showToalValue()}
             <ScrollView style={styles.scroll}>{showList()}</ScrollView>
@@ -196,6 +177,7 @@ export function Money({
         actionCallback={handleDelete}
         id={selected.id}
       />
+      <SideDrawer items={actions} />
     </TemplatePage>
   )
 }
