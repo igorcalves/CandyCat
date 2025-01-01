@@ -5,11 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { Provider } from 'react-redux'
-import { GestureHandlerRootView } from 'react-native-gesture-handler' // Import GestureHandlerRootView
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import store from './src/store'
 import Toast from 'react-native-toast-message'
 import toastConfig from './src/utils/toast/customToast'
-import BottomTab from './src/screens/BottomTab'
+import AppNavigator from './src/screens/BottomTab'
 import colors from './src/consts/colors'
 
 SplashScreen.preventAutoHideAsync()
@@ -34,7 +34,7 @@ export default function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
           <SafeAreaView style={styles.container}>
-            <BottomTab />
+            <AppNavigator />
             <Toast config={toastConfig} />
           </SafeAreaView>
         </NavigationContainer>

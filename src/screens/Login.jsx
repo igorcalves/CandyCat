@@ -1,38 +1,37 @@
-import { Image, StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import TextInput from "../components/inputs/TextInput";
-import PrimaryButton from "../components/buttons/PrimaryButton";
-import colors from "../consts/colors";
-import { useNavigation } from '@react-navigation/native';
-import { useState } from "react";
-import { connect } from "react-redux";
-import { loginRequest } from "../store/user/actions";
-
+import { Image, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import TextInput from '../components/inputs/TextInput'
+import PrimaryButton from '../components/buttons/PrimaryButton'
+import colors from '../consts/colors'
+import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import { connect } from 'react-redux'
+import { loginRequest } from '../store/user/actions'
 
 export const Login = ({ login }) => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const clearInputs = () => {
-    setEmail('');
-    setPassword('');
+    setEmail('')
+    setPassword('')
   }
 
   const handleLogin = () => {
-    setLoading(true);
-    login({ email, password }, () => {
-      navigation.navigate('Home');
-      clearInputs();
-      setLoading(false);
-    },
-    () => {
-      setLoading(false);
-    }
-  );
-  };
-
-
+    setLoading(true)
+    login(
+      { email, password },
+      () => {
+        navigation.navigate('Main')
+        clearInputs()
+        setLoading(false)
+      },
+      () => {
+        setLoading(false)
+      }
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -44,29 +43,18 @@ export const Login = ({ login }) => {
         <Text style={styles.TextOnTop}>CandyCat</Text>
       </View>
       <View style={styles.container}>
-        <TextInput 
-          placeholder="Login" 
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput 
+        <TextInput placeholder="Login" value={email} onChangeText={setEmail} />
+        <TextInput
           placeholder="Senha"
-          secureTextEntry={true} 
+          secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
         />
 
-
-          <PrimaryButton 
-          title="Entrar" 
-          onPress={handleLogin}
-          loading={loading}
-          
-          />
-
+        <PrimaryButton title="Entrar" onPress={handleLogin} loading={loading} />
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -92,11 +80,12 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     alignSelf: 'flex-end',
-  }
-});
+  },
+})
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (data, callback, callbackError) => dispatch(loginRequest(data, callback,callbackError)),
-});
+  login: (data, callback, callbackError) =>
+    dispatch(loginRequest(data, callback, callbackError)),
+})
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login)

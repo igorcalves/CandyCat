@@ -1,15 +1,19 @@
+import React from 'react'
+import { Image, Pressable } from 'react-native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import Tasks from './Tasks'
 import Money from './Money'
 import Shopping from './Shopping'
 import Exit from './Exit'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './Home'
+import Login from './Login' // Importe a tela de login
 import colors from '../consts/colors'
-import { Image, Pressable } from 'react-native'
 
-export default function BottomTab() {
-  const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator()
 
+function BottomTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -20,7 +24,7 @@ export default function BottomTab() {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="HomeTab"
         component={Home}
         options={{
           headerShown: false,
@@ -44,7 +48,7 @@ export default function BottomTab() {
         }}
       />
       <Tab.Screen
-        name="Tasks"
+        name="TasksTab"
         component={Tasks}
         options={{
           headerShown: false,
@@ -68,7 +72,7 @@ export default function BottomTab() {
         }}
       />
       <Tab.Screen
-        name="Money"
+        name="MoneyTab"
         component={Money}
         options={{
           headerShown: false,
@@ -92,7 +96,7 @@ export default function BottomTab() {
         }}
       />
       <Tab.Screen
-        name="Shopping"
+        name="ShoppingTab"
         component={Shopping}
         options={{
           headerShown: false,
@@ -116,7 +120,7 @@ export default function BottomTab() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileTab"
         component={Exit}
         options={{
           headerShown: false,
@@ -146,3 +150,22 @@ export default function BottomTab() {
     </Tab.Navigator>
   )
 }
+
+function AppNavigator() {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Main"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  )
+}
+
+export default AppNavigator
