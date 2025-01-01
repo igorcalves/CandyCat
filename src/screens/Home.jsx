@@ -7,7 +7,8 @@ import MoneyText from '../components/MoneyText'
 import DateFilter from '../components/filter/DateFilter'
 import { ScrollView } from 'react-native-gesture-handler'
 import AtualizationCard from '../components/card/AtualizationCard'
-
+import stylesC from '../consts/screensStyles'
+import TextName from '../components/pageComponents/TextName'
 export default function Home() {
   return (
     <TemplatePage>
@@ -15,7 +16,9 @@ export default function Home() {
         <MoneyText amount={20000.99} />
       </Header>
       <Body>
-        <Text style={styles.title}>Ultimas Atualizações</Text>
+        <View style={stylesC.bodyTitleContainer}>
+          <TextName name="Atualizações" />
+        </View>
         <DateFilter />
         <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
           {Array.from({ length: 10 }).map((_, index) => (

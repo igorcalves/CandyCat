@@ -153,7 +153,7 @@ function BottomTabNavigator() {
 
 function AppNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
         name="Login"
         component={Login}
