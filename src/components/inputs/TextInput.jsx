@@ -1,8 +1,13 @@
-import { StyleSheet, TextInput as TextInputComponent } from "react-native";
-import colors from "../../consts/colors";
-export default function TextInput({placeholder, value, onChangeText, secureTextEntry, inptuStyle}){
-
-  return(
+import { StyleSheet, TextInput as TextInputComponent } from 'react-native'
+import colors from '../../consts/colors'
+export default function TextInput({
+  placeholder,
+  value,
+  onChangeText,
+  secureTextEntry,
+  inptuStyle,
+}) {
+  return (
     <TextInputComponent
       style={[styles.input, inptuStyle]}
       placeholder={placeholder}
@@ -20,10 +25,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'transparent',
     padding: 10,
-    width: 300,
+    width: '100%',
     borderRadius: 20,
-    backgroundColor: colors.white,
+    backgroundColor: colors.background,
     fontFamily: 'Inter-ExtraBold',
     paddingLeft: 20,
   },
-});
+})

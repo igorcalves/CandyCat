@@ -37,11 +37,16 @@ export default function useNotifications({
 
   const getFirst = (email) => email.split('@')
 
-  const handleTextInput = () => {
+  const handleTextInput = (callBack) => {
+    const callBakcFunction = () => {
+      callBack(false)
+      addSuccess(textInput)
+      setTextInput('')
+    }
     if (validateInput(textInput, addSuccess, selected.title)) {
       addFunction(
         { title: textInput, email: getFirst(email)[0] },
-        addSuccess,
+        callBakcFunction,
         error
       )
       setTextInput('')

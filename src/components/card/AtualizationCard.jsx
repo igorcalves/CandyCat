@@ -62,7 +62,7 @@ export default function AtualizationCard({
             fontWeight="bold"
             fill={colors.black}
           >
-            {clampedProgress === 100 ? 'Completo' : `R$: ${remainingValue}`}
+            {clampedProgress === 100 ? '100%' : `R$: ${remainingValue}`}
           </SvgText>
         </Svg>
       </View>

@@ -7,4 +7,6 @@ export default Colors = {
   strongGray: '#c4c4c4',
   white: '#FFFFFF',
   black: '#2E3440',
+  yellow: '#FFD700',
+  red: '#FF0000',
 }

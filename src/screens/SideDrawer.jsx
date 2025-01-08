@@ -34,9 +34,9 @@ export default function SideDrawer({ items }) {
 
   const closeDrawer = () => {
     translateX.value = withTiming(
-      345,
+      390,
       {
-        duration: 500,
+        duration: 400,
         easing: Easing.out(Easing.exp),
       },
       (finished) => {

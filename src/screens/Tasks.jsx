@@ -21,6 +21,8 @@ import {
 import List from '../components/data/List'
 import SideDrawer from './SideDrawer'
 import AddSource from '../components/AddSource'
+import CreateModal from '../components/modals/createModal'
+import CrudInfoModal from '../components/modals/CrudInfoModal'
 
 const Tasks = ({
   getTask,
@@ -32,7 +34,8 @@ const Tasks = ({
   email,
   loading,
 }) => {
-  const [showCompleted, setShowCompleted] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [infoModal, setInfoModal] = useState(false)
 
   const {
     textInput,
@@ -72,7 +75,9 @@ const Tasks = ({
       key="create"
       title="Criar"
       icon={<Icon name="add" style={styles.buttonIcon} />}
-      onPress={handleTextInput}
+      onPress={() => {
+        setShowModal(true)
+      }}
     />,
     <AddSource
       key="list"
@@ -121,7 +126,7 @@ const Tasks = ({
               ) : pressed === 'A fazer' ? (
                 <List
                   sources={tasks}
-                  onPressed={toggleCompleteModal}
+                  onPressed={setInfoModal}
                   toggleDeleteModal={toggleDeleteModal}
                   toggleEditModal={toggleEditModal}
                   selectedSource={setSelected}
@@ -141,36 +146,36 @@ const Tasks = ({
         </View>
       </Body>
 
-      <CustomAlert
-        text={'Deseja completar a tarefa:'}
-        taskTitle={selected.title}
-        isModalVisible={isCompleteModal}
-        toggleModal={toggleCompleteModal}
-        actionCallback={handleComplete}
-        id={selected.id}
-      />
+      {showModal && (
+        <CreateModal
+          text={textInput}
+          setText={setTextInput}
+          handleTextInput={handleTextInput}
+          setModalVisible={setShowModal}
+        />
+      )}
 
-      <CustomAlert
-        text={'Deseja editar a tarefa:'}
-        taskTitle={selected.title}
-        isModalVisible={isEditModal}
-        toggleModal={toggleEditModal}
-        actionCallback={updateTaskName}
-        id={selected.id}
-        updateTask={true}
-        value={sourceName}
-        onChangeText={setSourceName}
-        onPressToUpdateName={handleEditTextInput}
-      />
-
-      <CustomAlert
-        text={'Deseja excluir a tarefa:'}
-        taskTitle={selected.title}
-        isModalVisible={isDeleteModal}
-        toggleModal={toggleDeleteModal}
-        actionCallback={handleDelete}
-        id={selected.id}
-      />
+      {infoModal && (
+        <CrudInfoModal
+          isDeleteModal={isDeleteModal}
+          isCompleteModal={isCompleteModal}
+          isEditModal={isEditModal}
+          selected={selected}
+          toggleDeleteModal={toggleDeleteModal}
+          toggleCompleteModal={toggleCompleteModal}
+          toggleEditModal={toggleEditModal}
+          handleComplete={handleComplete}
+          handleDelete={handleDelete}
+          updateTaskName={updateTaskName}
+          sourceName={sourceName}
+          setSourceName={setSourceName}
+          handleEditTextInput={handleEditTextInput}
+          handleTextInput={handleTextInput}
+          setModalVisible={setInfoModal}
+          text={textInput}
+          setText={setTextInput}
+        />
+      )}
     </TemplatePage>
   )
 }

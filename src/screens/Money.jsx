@@ -125,6 +125,14 @@ export function Money({
       icon={<Icon name="money-off" style={styles.buttonIcon} />}
       onPress={() => setPressed('Gastos')}
     />,
+    <AddSource
+      title="Guardar"
+      icon={<Icon name="money" style={styles.buttonIcon} />}
+      onPress={() => {
+        setPressed('Guardar')
+        getSavedMoney()
+      }}
+    />,
   ]
 
   const showList = () => {

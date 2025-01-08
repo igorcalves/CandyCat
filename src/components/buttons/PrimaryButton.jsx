@@ -1,10 +1,13 @@
+import React from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native'
 import colors from '../../consts/colors'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 export default function PrimaryButton({
   title,
@@ -13,6 +16,10 @@ export default function PrimaryButton({
   textStyles,
   loading,
   pressed,
+  icon,
+  iconName,
+  iconSize = 20,
+  iconColor = colors.black,
 }) {
   return (
     <TouchableOpacity
@@ -22,11 +29,21 @@ export default function PrimaryButton({
       {loading ? (
         <ActivityIndicator color={colors.accent} />
       ) : (
-        <Text
-          style={[styles.title, textStyles, pressed && styles.titlePressed]}
-        >
-          {title}
-        </Text>
+        <View style={styles.content}>
+          {icon && (
+            <Icon
+              name={iconName}
+              size={iconSize}
+              color={iconColor}
+              style={styles.icon}
+            />
+          )}
+          <Text
+            style={[styles.title, textStyles, pressed && styles.titlePressed]}
+          >
+            {title}
+          </Text>
+        </View>
       )}
     </TouchableOpacity>
   )
@@ -37,9 +54,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accent,
     padding: 10,
     borderRadius: 20,
-    width: 300,
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 20,
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     color: colors.black,
