@@ -60,21 +60,6 @@ export default function CrudInfoModal({
           style={{ marginRight: 10, marginTop: 5 }}
           onPress={toggleDeleteModal}
         />
-        <Icon
-          name="check"
-          size={20}
-          color={colors.white}
-          style={{ marginRight: 10, marginTop: 5 }}
-          onPress={toggleCompleteModal}
-        />
-
-        <Icon
-          name="close"
-          size={20}
-          color={colors.white}
-          style={{ marginRight: 10, marginTop: 5 }}
-          onPress={toggleModal}
-        />
       </View>
     )
   }
@@ -124,6 +109,24 @@ export default function CrudInfoModal({
                 Criado em: {convertDate(selected.date)}
               </Text>
             </View>
+
+            <View style={[styles.buttons, { padding: 20 }]}>
+              <PrimaryButton
+                onPress={toggleModal}
+                title="Fechar"
+                primaryButtonStyle={{
+                  backgroundColor: 'transparent',
+                  borderWidth: 1,
+                  borderColor: colors.accent,
+                }}
+                textStyles={{ color: colors.accent }}
+              />
+              <PrimaryButton
+                title="Completar"
+                onPress={toggleCompleteModal}
+                textStyles={{ color: colors.white }}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -132,6 +135,7 @@ export default function CrudInfoModal({
         taskTitle={selected.title}
         isModalVisible={isDeleteModal}
         toggleModal={toggleDeleteModal}
+        mainModal={setModalVisible}
         actionCallback={handleDelete}
         id={selected.id}
       />
@@ -142,6 +146,7 @@ export default function CrudInfoModal({
         isModalVisible={isCompleteModal}
         toggleModal={toggleCompleteModal}
         actionCallback={handleComplete}
+        mainModal={setModalVisible}
         id={selected.id}
       />
 
@@ -149,6 +154,7 @@ export default function CrudInfoModal({
         text={'Deseja editar a tarefa:'}
         taskTitle={selected.title}
         isModalVisible={isEditModal}
+        mainModal={setModalVisible}
         toggleModal={toggleEditModal}
         actionCallback={updateTaskName}
         id={selected.id}

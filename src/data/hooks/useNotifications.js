@@ -9,6 +9,7 @@ export default function useNotifications({
   updateNameFunction,
   email,
   numberInput = false,
+  getSource,
 }) {
   const { addSuccess, deleteSuccess, editSuccess, completeSuccess, error } =
     useToast()
@@ -53,8 +54,13 @@ export default function useNotifications({
     }
   }
 
-  const handleEditTextInput = () => {
+  const handleEditTextInput = (showModal) => {
     if (validateInput(sourceName, editSuccess, selected.title)) {
+      const callBack = () => {
+        editSuccess(sourceName)
+        showModal(false)
+        getSource()
+      }
       updateNameFunction(
         {
           title: sourceName,
@@ -62,7 +68,7 @@ export default function useNotifications({
           email: getFirst(email)[0],
           oldValue: selected.title,
         },
-        editSuccess,
+        callBack,
         error
       )
       setSourceName('')
@@ -70,19 +76,25 @@ export default function useNotifications({
     }
   }
 
-  const handleDelete = () => {
-    deleteFunction(
-      { id: selected.id, title: selected.title },
-      deleteSuccess,
-      error
-    )
+  const handleDelete = (id, title, showModal) => {
+    const callBack = () => {
+      deleteSuccess(title)
+      showModal(false)
+      getSource()
+    }
+    deleteFunction({ id: selected.id, title: selected.title }, callBack, error)
     toggleDeleteModal()
   }
 
-  const handleComplete = () => {
+  const handleComplete = (id, title, showModal) => {
+    const callBack = () => {
+      completeSuccess(title)
+      showModal(false)
+      getSource()
+    }
     updateCompletedFunction(
       { id: selected.id, email: getFirst(email)[0] },
-      completeSuccess,
+      callBack,
       error
     )
     toggleCompleteModal()

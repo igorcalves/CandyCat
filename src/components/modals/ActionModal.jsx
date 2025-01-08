@@ -14,6 +14,7 @@ export default function CustomAlert({
   onChangeText,
   updateTask = false,
   onPressToUpdateName,
+  mainModal,
 }) {
   const buttons = () => {
     return (
@@ -22,7 +23,7 @@ export default function CustomAlert({
           title="Sim"
           primaryButtonStyle={{ width: 100 }}
           onPress={() => {
-            actionCallback(id, taskTitle)
+            actionCallback(id, taskTitle, mainModal)
             toggleModal()
           }}
         />
@@ -50,7 +51,7 @@ export default function CustomAlert({
           <PrimaryButton
             title={'Salvar'}
             onPress={() => {
-              onPressToUpdateName()
+              onPressToUpdateName(mainModal)
             }}
           />
           <PrimaryButton

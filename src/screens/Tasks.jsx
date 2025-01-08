@@ -62,6 +62,7 @@ const Tasks = ({
     updateCompletedFunction: updateTaskToCompleted,
     deleteFunction: deleteTask,
     email,
+    getSource: () => getTask(false),
   })
 
   useFocusEffect(

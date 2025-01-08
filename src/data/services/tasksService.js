@@ -55,10 +55,15 @@ export const addTask = async (data) => {
 
 export const deleteTask = async (data) => {
   try {
-    const taskRef = doc(db, 'tasks', String(data))
+    const taskRef = doc(db, 'tasks', String(data.id))
+    console.log('Referência do documento:', taskRef)
+
     await deleteDoc(taskRef)
+    console.log('Documento excluído com sucesso')
+
     return true
   } catch (error) {
+    console.error('Erro ao excluir o documento:', error)
     return false
   }
 }
